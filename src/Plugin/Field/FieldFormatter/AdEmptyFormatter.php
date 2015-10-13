@@ -15,7 +15,7 @@ use Drupal\Core\Field\FieldItemListInterface;
  *
  * @FieldFormatter(
  *   id = "ad_empty_formatter",
- *   module = "ad",
+ *   module = "ad_integration",
  *   label = @Translation("Empty formatter"),
  *   field_types = {
  *     "ad_integration_settings"

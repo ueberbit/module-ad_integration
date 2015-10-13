@@ -60,7 +60,7 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $settings = $this->config('ad_integration.settings');
 
-    $form['settings'] = array(
+    $form['ad_settings'] = array(
       '#type' => 'vertical_tabs',
       '#default_tab' => 'site_settings',
     );
@@ -68,23 +68,21 @@ class SettingsForm extends ConfigFormBase {
     $form['site_settings'] = array(
       '#type' => 'details',
       '#title' => t('Site settings'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#open' => TRUE,
       '#group' => 'ad_settings',
     );
 
     $form['default_values'] = [
       '#type' => 'details',
       '#title' => t('Default values'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#open' => FALSE,
       '#group' => 'ad_settings',
     ];
 
-    $form['default_values']['ad_rubric'] = [
+    $form['default_values']['ad_rubric_default'] = [
       '#title' => t('Default Ad Rubric'),
       '#type' => 'textfield',
-      '#default_value' => $settings->get('ad_rubric'),
+      '#default_value' => $settings->get('ad_rubric_default'),
       '#description' => t('Default ad rubric')
     ];
 
@@ -94,10 +92,10 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $settings->get('ad_rubric_overridable'),
     ];
 
-    $form['default_values']['ad_ressort'] = [
+    $form['default_values']['ad_ressort_default'] = [
       '#title' => t('Default Ad Ressort'),
       '#type' => 'textfield',
-      '#default_value' => $settings->get('ad_rubric'),
+      '#default_value' => $settings->get('ad_ressort_default'),
       '#description' => t('Default ad rubric')
     ];
 
@@ -117,11 +115,9 @@ class SettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
     $values = $form_state->getValues();
     $config =$this->configFactory()->getEditable('ad_integration.settings');
-    $config->set('ad_rubric_vocabulary', $values['ad_rubric_vocabulary'])
-      ->set('ad_rubric', $values['ad_rubric'])
+    $config->set('ad_rubric_default', $values['ad_rubric_default'])
       ->set('ad_rubric_overridable', $values['ad_rubric_overridable'])
-      ->set('ad_ressort_vocabulary', $values['ad_ressort_vocabulary'])
-      ->set('ad_ressort', $values['ad_ressort'])
+      ->set('ad_ressort_default', $values['ad_ressort_default'])
       ->set('ad_ressort_overridable', $values['ad_ressort_overridable'])
       ->save();
   }

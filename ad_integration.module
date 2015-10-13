@@ -22,9 +22,16 @@ function ad_integration_form_node_form_alter(&$form, FormStateInterface $form_st
     }
   }
   if($has_settings) {
+    if(!isset($form['advanced'])) {
+      $form['advanced'] = array(
+        '#type' => 'vertical_tabs',
+        '#weight' => 99,
+      );
+    }
+
     $form['ad_integration_settings_override'] = array(
       '#type' => 'details',
-      '#title' => t('FAG settings'),
+      '#title' => t('Advertising settings'),
       '#open' => FALSE,
       '#group' => 'advanced',
       '#optional' => FALSE,
@@ -43,16 +50,13 @@ function ad_integration_form_taxonomy_term_form_alter(&$form, FormStateInterface
  * Implements template_preprocess_html().
  */
 function ad_integration_page_attachments(array &$page) {
-//  $trackerService = \Drupal::service('ivw_integration.tracker');
-//  $config = \Drupal::config('ivw_integration.settings');
-//  $tracker = $trackerService->getTrackingInformation();
-//  // site value is missing, do not render tag
-//  if (empty($tracker['st'])){
-//    return;
-//  }
-//
-//  $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $trackerService->getCacheTags());
-//
+  /**
+   * @var Drupal\ad_integration\AdIntegration $advertisingService
+   */
+  $advertisingService = \Drupal::service('ad_integration');
+  $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
+
+//  $config = \Drupal::config('ad_integration.settings');
 //  $page['#attached']['html_head'][] = [
 //    [
 //      '#tag' => 'script',
@@ -60,24 +64,17 @@ function ad_integration_page_attachments(array &$page) {
 //        'src' => 'https://script.ioam.de/iam.js'
 //      ],
 //    ],
-//    'ivw_library'
+//    'ad_library'
 //  ];
-//  $page['#attached']['html_head'][] = [
-//    [
-//      '#tag' => 'script',
-//      '#attributes' => [
-//        'type' => 'text/javascript'
-//      ],
-//      '#value' => 'var iam_data = {
-//                  "st": "' . $tracker['st'] . '",
-//                  "cp": "' . $tracker['cp'] . '",
-//                  "sv": "' . $tracker['sv'] . '"
-//              }
-//              if(window.innerWidth < ' . $config->get('ivw_mobile_width') . ') {
-//                iam_data.cp = "' . $tracker['cpm']. '"
-//              }
-//              iom.c(iam_data, 1);',
-//    ],
-//    'ivw_call'
-//  ];
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'type' => 'text/javascript'
+      ],
+      '#value' => "var adsc_ressort = '" . $advertisingService->getAdRessort() . "';
+                  var adsc_rubrik = '" . $advertisingService->getAdRubric() . "';",
+    ],
+    'advertising_config'
+  ];
 }
