@@ -1,0 +1,83 @@
+<?php
+
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node_form().
+ */
+function ad_integration_form_node_form_alter(&$form, FormStateInterface $form_state) {
+  /* Is there a better way to get the node? */
+  $entity = $form_state->getBuildInfo()['callback_object']->getEntity();
+
+  /**
+   * Set group of all ad_integration_settings elements
+   */
+  $has_settings = FALSE;
+  foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
+    if ($fieldDefinition->getType() === 'ad_integration_settings') {
+      $has_settings = TRUE;
+      $form[$fieldDefinition->getName()]['#group'] = 'ad_integration_settings_override';
+    }
+  }
+  if($has_settings) {
+    $form['ad_integration_settings_override'] = array(
+      '#type' => 'details',
+      '#title' => t('FAG settings'),
+      '#open' => FALSE,
+      '#group' => 'advanced',
+      '#optional' => FALSE,
+    );
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for taxonomy_term_form().
+ */
+function ad_integration_form_taxonomy_term_form_alter(&$form, FormStateInterface $form_state) {
+  ad_integration_form_node_form_alter($form, $form_state);
+}
+
+/**
+ * Implements template_preprocess_html().
+ */
+function ad_integration_page_attachments(array &$page) {
+//  $trackerService = \Drupal::service('ivw_integration.tracker');
+//  $config = \Drupal::config('ivw_integration.settings');
+//  $tracker = $trackerService->getTrackingInformation();
+//  // site value is missing, do not render tag
+//  if (empty($tracker['st'])){
+//    return;
+//  }
+//
+//  $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $trackerService->getCacheTags());
+//
+//  $page['#attached']['html_head'][] = [
+//    [
+//      '#tag' => 'script',
+//      '#attributes' => [
+//        'src' => 'https://script.ioam.de/iam.js'
+//      ],
+//    ],
+//    'ivw_library'
+//  ];
+//  $page['#attached']['html_head'][] = [
+//    [
+//      '#tag' => 'script',
+//      '#attributes' => [
+//        'type' => 'text/javascript'
+//      ],
+//      '#value' => 'var iam_data = {
+//                  "st": "' . $tracker['st'] . '",
+//                  "cp": "' . $tracker['cp'] . '",
+//                  "sv": "' . $tracker['sv'] . '"
+//              }
+//              if(window.innerWidth < ' . $config->get('ivw_mobile_width') . ') {
+//                iam_data.cp = "' . $tracker['cpm']. '"
+//              }
+//              iom.c(iam_data, 1);',
+//    ],
+//    'ivw_call'
+//  ];
+}

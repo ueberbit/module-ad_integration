@@ -1,0 +1,16 @@
+ad_integration.settings:
+  type: mapping
+  label: 'Ad integration Settings'
+  mapping:
+    ad_rubric:
+      type: string
+      label: 'Default Ad rubric'
+    ad_rubric_overridable:
+      type: bool
+      label: 'Ad rubric string is overridable'
+    ad_ressort:
+      type: string
+      label: 'Default Ad resort'
+    ad_ressort_overridable:
+      type: bool
+      label: 'Ad resort is overridable'
