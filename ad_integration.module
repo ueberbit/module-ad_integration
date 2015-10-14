@@ -56,24 +56,13 @@ function ad_integration_page_attachments(array &$page) {
   $advertisingService = \Drupal::service('ad_integration');
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
 
-//  $config = \Drupal::config('ad_integration.settings');
-//  $page['#attached']['html_head'][] = [
-//    [
-//      '#tag' => 'script',
-//      '#attributes' => [
-//        'src' => 'https://script.ioam.de/iam.js'
-//      ],
-//    ],
-//    'ad_library'
-//  ];
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
       '#attributes' => [
         'type' => 'text/javascript'
       ],
-      '#value' => "var adsc_ressort = '" . $advertisingService->getAdRessort() . "';
-                  var adsc_rubrik = '" . $advertisingService->getAdRubric() . "';",
+      '#value' => "var adsc_ressort = '" . $advertisingService->getAdRessort() . "'; var adsc_rubrik = '" . $advertisingService->getAdRubric() . "';",
     ],
     'advertising_config'
   ];
