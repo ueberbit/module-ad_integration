@@ -53,17 +53,28 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    $plugin_id,
+    $plugin_definition
+  ) {
     return new static($plugin_id, $plugin_definition, $configuration['field_definition'], $configuration['settings'], $configuration['third_party_settings'], $container->get('config.factory'));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
+  public function formElement(
+    FieldItemListInterface $items,
+    $delta,
+    array $element,
+    array &$form,
+    FormStateInterface $form_state
+  ) {
     $settings = $this->configFactory->get('ad_integration.settings');
 
-    if($settings->get('ad_rubric_overridable')) {
+    if ($settings->get('ad_rubric_overridable')) {
       $element['ad_rubric'] = array(
         '#type' => 'textfield',
         '#title' => t('Ad Rubric'),
@@ -73,7 +84,7 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
       );
     }
 
-    if($settings->get('ad_ressort_overridable')) {
+    if ($settings->get('ad_ressort_overridable')) {
       $element['ad_ressort'] = array(
         '#type' => 'textfield',
         '#title' => t('Ad Ressort'),
