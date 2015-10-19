@@ -11,8 +11,10 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\Element;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -36,6 +38,13 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
   protected $configFactory;
 
   /**
+   * The form builder.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -44,10 +53,12 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
     FieldDefinitionInterface $field_definition,
     array $settings,
     array $third_party_settings,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    FormBuilderInterface $form_builder
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
     $this->configFactory = $config_factory;
+    $this->formBuilder = $form_builder;
   }
 
   /**
@@ -59,7 +70,14 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
     $plugin_id,
     $plugin_definition
   ) {
-    return new static($plugin_id, $plugin_definition, $configuration['field_definition'], $configuration['settings'], $configuration['third_party_settings'], $container->get('config.factory'));
+    return new static(
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['third_party_settings'],
+      $container->get('config.factory'),
+      $container->get('form_builder'));
   }
 
   /**
@@ -73,26 +91,24 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
     FormStateInterface $form_state
   ) {
     $settings = $this->configFactory->get('ad_integration.settings');
+    $settingsForm = $this->formBuilder->getForm('\Drupal\ad_integration\Form\SettingsForm');
+    foreach(Element::children($settingsForm['default_values']) as $child_element){
+      if(strrpos($child_element, '_overridable') !== FALSE && ($settings->get($child_element) == 1)) {
+        $value_element_name = str_replace('_overridable', '', $child_element);
+        $default_value_element_name = $value_element_name . '_default';
+        $default_value_element = $settingsForm['default_values'][$default_value_element_name];
 
-    if ($settings->get('ad_rubric_overridable')) {
-      $element['ad_rubric'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Ad Rubric'),
-        '#default_value' => isset($items[$delta]->ad_rubric) ? $items[$delta]->ad_rubric : NULL,
-        '#required' => FALSE,
-        '#empty_option' => t('Site default value')
-      );
+        $element[$value_element_name]['#type'] = $default_value_element['#type'];
+        $element[$value_element_name]['#title'] = $default_value_element['#title'];
+        $element[$value_element_name]['#default_value'] = isset($items[$delta]->$value_element_name) ? $items[$delta]->$value_element_name : NULL;
+        $element[$value_element_name]['#required'] = FALSE;
+
+        if(!empty($default_value_element['#options'])) {
+          $element[$value_element_name]['#options'] = $default_value_element['#options'];
+        }
+      }
     }
 
-    if ($settings->get('ad_ressort_overridable')) {
-      $element['ad_ressort'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Ad Ressort'),
-        '#default_value' => isset($items[$delta]->ad_ressort) ? $items[$delta]->ad_ressort : NULL,
-        '#required' => FALSE,
-        '#empty_option' => t('Site default value')
-      );
-    }
     return $element;
   }
 }

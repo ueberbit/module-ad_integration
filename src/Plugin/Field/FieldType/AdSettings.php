@@ -29,12 +29,22 @@ class AdSettings extends FieldItemBase {
   public static function schema(FieldStorageDefinitionInterface $field_definition) {
     return array(
       'columns' => array(
-        'ad_rubric' => array(
+        'adsc_unit1' => array(
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
         ),
-        'ad_ressort' => array(
+        'adsc_unit2' => array(
+          'type' => 'varchar',
+          'length' => 256,
+          'not null' => TRUE,
+        ),
+        'adsc_unit3' => array(
+          'type' => 'varchar',
+          'length' => 256,
+          'not null' => TRUE,
+        ),
+        'adsc_mode' => array(
           'type' => 'varchar',
           'length' => 256,
           'not null' => TRUE,
@@ -54,8 +64,10 @@ class AdSettings extends FieldItemBase {
    * {@inheritdoc}
    */
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
-    $properties['ad_rubric'] = DataDefinition::create('string')->setLabel(t('Ad Rubric'));
-    $properties['ad_ressort'] = DataDefinition::create('string')->setLabel(t('Ad Ressort'));
+    $properties['adsc_unit1'] = DataDefinition::create('string')->setLabel(t('Ad unit 1'));
+    $properties['adsc_unit2'] = DataDefinition::create('string')->setLabel(t('Ad unit 2'));
+    $properties['adsc_unit3'] = DataDefinition::create('string')->setLabel(t('Ad unit 3'));
+    $properties['adsc_mode'] = DataDefinition::create('string')->setLabel(t('Ad mode'));
 
     return $properties;
   }

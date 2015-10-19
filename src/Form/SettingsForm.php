@@ -107,7 +107,7 @@ class SettingsForm extends ConfigFormBase {
     );
 
     $form['default_values']['adsc_unit1_default'] = [
-      '#title' => t('Default adsc_unit1'),
+      '#title' => t('adsc_unit1'),
       '#type' => 'textfield',
       '#default_value' => $settings->get('adsc_unit1_default'),
       '#description' => t('Name of Website')
@@ -120,7 +120,7 @@ class SettingsForm extends ConfigFormBase {
     ];
 
     $form['default_values']['adsc_unit2_default'] = [
-      '#title' => t('Default adsc_unit2'),
+      '#title' => t('adsc_unit2'),
       '#type' => 'textfield',
       '#default_value' => $settings->get('adsc_unit2_default'),
       '#description' => t('First hierarchical level')
@@ -133,7 +133,7 @@ class SettingsForm extends ConfigFormBase {
     ];
 
     $form['default_values']['adsc_unit3_default'] = [
-      '#title' => t('Default adsc_unit3'),
+      '#title' => t('adsc_unit3'),
       '#type' => 'textfield',
       '#default_value' => $settings->get('adsc_unit3_default'),
       '#description' => t('Second hierarchical level')
@@ -147,7 +147,7 @@ class SettingsForm extends ConfigFormBase {
 
     $modes = ['full' => 'full', 'infinite' => 'infinite'];
     $form['default_values']['adsc_mode_default'] = [
-      '#title' => t('Default adsc_mode'),
+      '#title' => t('adsc_mode'),
       '#type' => 'select',
       '#options' => $modes,
       '#default_value' => $settings->get('adsc_mode_default'),
