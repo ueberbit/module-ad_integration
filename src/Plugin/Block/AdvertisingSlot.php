@@ -77,6 +77,9 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $form = parent::blockForm($form, $form_state);
     $config = $this->getConfiguration();
 
+    /**
+     * TODO: turn textfield into select list from configurable ad tags
+     */
     if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];

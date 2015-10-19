@@ -76,8 +76,8 @@ function ad_integration_page_attachments(array &$page) {
       '#value' => "var adsc_adunit1 = '" . $advertisingService->getAdUnit1() . "';
                    var adsc_adunit2 = '" . $advertisingService->getAdUnit2() . "';
                    var adsc_adunit3 = '" . $advertisingService->getAdUnit3() . "';
-                   var adsc_mode = " . $advertisingService->getAdMode() . "';
-                   var adsc_mobile = deviceIsMobile();
+                   var adsc_mode = '" . $advertisingService->getAdMode() . "';
+                   var adsc_mobile = deviceIsMobile().toString();
                    var adsc_device = getDeviceType();",
     ],
     'advertising_config'
@@ -101,5 +101,5 @@ function ad_integration_page_attachments(array &$page) {
     ],
     'ad_engine'
   ];
-
+  $page['#attached']['library'][] = 'ad_integration/id_integration';
 }

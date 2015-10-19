@@ -28,3 +28,4 @@ function deviceIsDesktop() {
     "use strict";
     return (getDeviceType() === 'desktop');
 }
+
