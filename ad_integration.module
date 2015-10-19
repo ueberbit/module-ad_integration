@@ -60,10 +60,46 @@ function ad_integration_page_attachments(array &$page) {
     [
       '#tag' => 'script',
       '#attributes' => [
+        'src' => '/' . drupal_get_path('module', 'ad_integration') . '/js/adHelper.js'
+      ],
+    ],
+    'ad_helper'
+  ];
+
+
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
         'type' => 'text/javascript'
       ],
-      '#value' => "var adsc_ressort = '" . $advertisingService->getAdRessort() . "'; var adsc_rubrik = '" . $advertisingService->getAdRubric() . "';",
+      '#value' => "var adsc_adunit1 = '" . $advertisingService->getAdUnit1() . "';
+                   var adsc_adunit2 = '" . $advertisingService->getAdUnit2() . "';
+                   var adsc_adunit3 = '" . $advertisingService->getAdUnit3() . "';
+                   var adsc_mode = " . $advertisingService->getAdMode() . "';
+                   var adsc_mobile = deviceIsMobile();
+                   var adsc_device = getDeviceType();",
     ],
     'advertising_config'
   ];
+
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'src' => $advertisingService->getAdContainerTag()
+      ],
+    ],
+    'container_tag'
+  ];
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'src' => $advertisingService->getAdEngine()
+      ],
+    ],
+    'ad_engine'
+  ];
+
 }

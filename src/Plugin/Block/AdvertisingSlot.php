@@ -58,8 +58,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_id,
     $plugin_definition
   ) {
-    return new static($configuration, $plugin_id, $plugin_definition, $container->get('config.factory')
-    );
+    return new static($configuration, $plugin_id, $plugin_definition, $container->get('config.factory'));
   }
 
   /**
@@ -67,16 +66,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function defaultConfiguration() {
     $defaults = [];
-    // if breakpoint config from breakpoint_js_settings exists,
-    // supply ad slot for each device
-    if ($mappings = getDeviceMappings()) {
-      foreach ($mappings as $mapping) {
-        $defaults[$mapping['device']] = NULL;
-      }
-    }
-    else {
-      $defaults['adtag'] = NULL;
-    }
+
     return $defaults;
   }
 
@@ -87,12 +77,12 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $form = parent::blockForm($form, $form_state);
     $config = $this->getConfiguration();
 
-    if ($mappings = getDeviceMappings()) {
+    if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
         $form[$device] = [
           '#type' => 'textfield',
-          '#title' => t('Adtag for :device', array(':device', $device)),
+          '#title' => t('Adtag for :device', array(':device' => $device)),
           '#default_value' => $config[$device] ? $config[$device] : NULL,
         ];
       }
@@ -112,7 +102,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
     // Save our custom settings when the form is submitted.
-    if ($mappings = getDeviceMappings()) {
+    if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
         $this->setConfigurationValue($device, $form_state->getValue($device));
@@ -130,7 +120,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     ];
 
     $attachments = [$html_id => []];
-    if ($mappings = getDeviceMappings()) {
+    if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
         $attachments[$html_id][$device] = $config[$device];
@@ -145,8 +135,10 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
   }
 
   private function getDeviceMappings() {
-    if (($config = $this->configFactory->get('breakpoint_js_settings.settings')) && ($mappings = $config->get('device_mappings'))) {
-      return $mappings;
+    if ($config = $this->configFactory->get('breakpoint_js_settings.settings')){
+      if ($mappings = $config->get('device_mappings')) {
+        return $mappings;
+      }
     }
     return FALSE;
   }

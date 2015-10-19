@@ -11,6 +11,7 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Utility\Token;
+use Drupal\Component\Utility\Tags;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -79,30 +80,84 @@ class SettingsForm extends ConfigFormBase {
       '#group' => 'ad_settings',
     ];
 
-    $form['default_values']['ad_rubric_default'] = [
-      '#title' => t('Default Ad Rubric'),
+    $form['site_settings']['adsc_container_tag'] = array(
       '#type' => 'textfield',
-      '#default_value' => $settings->get('ad_rubric_default'),
-      '#description' => t('Default ad rubric')
-    ];
+      '#title' => t('Container tag url'),
+      '#default_value' => $settings->get('adsc_container_tag'),
+    );
 
-    $form['default_values']['ad_rubric_overridable'] = [
-      '#type' => 'checkbox',
-      '#title' => t('Ad rubric is overrideable'),
-      '#default_value' => $settings->get('ad_rubric_overridable'),
-    ];
-
-    $form['default_values']['ad_ressort_default'] = [
-      '#title' => t('Default Ad Ressort'),
+    $form['site_settings']['adsc_ad_engine'] = array(
       '#type' => 'textfield',
-      '#default_value' => $settings->get('ad_ressort_default'),
-      '#description' => t('Default ad rubric')
+      '#title' => t('Ad engine'),
+      '#default_value' => $settings->get('adsc_ad_engine'),
+    );
+
+    $form['site_settings']['adsc_unit2_values'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Possible adsc_unit2 values'),
+      '#default_value' => Tags::implode($settings->get('adsc_unit2_values')),
+      '#description' => t('Comma separated list of possible values for first hierarchy level')
+    );
+
+    $form['site_settings']['adsc_unit3_values'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Possible adsc_unit3 values'),
+      '#default_value' => Tags::implode($settings->get('adsc_unit3_values')),
+      '#description' => t('Comma separated list of possible values for second hierarchy level')
+    );
+
+    $form['default_values']['adsc_unit1_default'] = [
+      '#title' => t('Default adsc_unit1'),
+      '#type' => 'textfield',
+      '#default_value' => $settings->get('adsc_unit1_default'),
+      '#description' => t('Name of Website')
     ];
 
-    $form['default_values']['ad_ressort_overridable'] = [
+    $form['default_values']['adsc_unit1_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Ad ressort is overrideable'),
-      '#default_value' => $settings->get('ad_ressort_overridable'),
+      '#title' => t('Adsc Unit 1 is overrideable'),
+      '#default_value' => $settings->get('adsc_unit1_overridable'),
+    ];
+
+    $form['default_values']['adsc_unit2_default'] = [
+      '#title' => t('Default adsc_unit2'),
+      '#type' => 'textfield',
+      '#default_value' => $settings->get('adsc_unit2_default'),
+      '#description' => t('First hierarchical level')
+    ];
+
+    $form['default_values']['adsc_unit2_overridable'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Adsc Unit 3 is overrideable'),
+      '#default_value' => $settings->get('adsc_unit2_overridable'),
+    ];
+
+    $form['default_values']['adsc_unit3_default'] = [
+      '#title' => t('Default adsc_unit3'),
+      '#type' => 'textfield',
+      '#default_value' => $settings->get('adsc_unit3_default'),
+      '#description' => t('Second hierarchical level')
+    ];
+
+    $form['default_values']['adsc_unit3_overridable'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Adsc Unit 3 is overrideable'),
+      '#default_value' => $settings->get('adsc_unit3_overridable'),
+    ];
+
+    $modes = ['full' => 'full', 'infinite' => 'infinite'];
+    $form['default_values']['adsc_mode_default'] = [
+      '#title' => t('Default adsc_mode'),
+      '#type' => 'select',
+      '#options' => $modes,
+      '#default_value' => $settings->get('adsc_mode_default'),
+      '#description' => t('Adsc mode')
+    ];
+
+    $form['default_values']['adsc_mode_overridable'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Adsc mode is overrideable'),
+      '#default_value' => $settings->get('adsc_mode_overridable'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -115,10 +170,18 @@ class SettingsForm extends ConfigFormBase {
     parent::submitForm($form, $form_state);
     $values = $form_state->getValues();
     $config =$this->configFactory()->getEditable('ad_integration.settings');
-    $config->set('ad_rubric_default', $values['ad_rubric_default'])
-      ->set('ad_rubric_overridable', $values['ad_rubric_overridable'])
-      ->set('ad_ressort_default', $values['ad_ressort_default'])
-      ->set('ad_ressort_overridable', $values['ad_ressort_overridable'])
+    $config->set('adsc_container_tag', $values['adsc_container_tag'])
+      ->set('adsc_ad_engine', $values['adsc_ad_engine'])
+      ->set('adsc_unit1_default', $values['adsc_unit1_default'])
+      ->set('adsc_unit1_overridable', $values['adsc_unit1_overridable'])
+      ->set('adsc_unit2_default', $values['adsc_unit2_default'])
+      ->set('adsc_unit2_values', Tags::Explode($values['adsc_unit2_values']))
+      ->set('adsc_unit2_overridable', $values['adsc_unit2_overridable'])
+      ->set('adsc_unit3_default', $values['adsc_unit3_default'])
+      ->set('adsc_unit3_values', Tags::Explode($values['adsc_unit3_values']))
+      ->set('adsc_unit3_overridable', $values['adsc_unit3_overridable'])
+      ->set('adsc_mode_default', $values['adsc_mode_default'])
+      ->set('adsc_mode_overridable', $values['adsc_mode_overridable'])
       ->save();
   }
 

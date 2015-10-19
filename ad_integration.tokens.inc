@@ -22,15 +22,22 @@ function ad_integration_token_info() {
   );
 
   // Core comment tokens
-  $ad['ad_rubric'] = array(
-    'name' => t("Advertising Rubric"),
-    'description' => t("Advertising Rubric."),
+  $ad['adsc_unit1'] = array(
+    'name' => t("Ad unit 1"),
+    'description' => t("Ad unit 1."),
   );
-  $ad['ad_ressort'] = array(
-    'name' => t("Advertising Ressort"),
-    'description' => t("Advertising Ressort."),
+  $ad['adsc_unit2'] = array(
+    'name' => t("Ad unit 2"),
+    'description' => t("Ad unit 2."),
   );
-
+  $ad['adsc_unit3'] = array(
+    'name' => t("Ad unit 3"),
+    'description' => t("Ad unit 3."),
+  );
+  $ad['adsc_mode'] = array(
+    'name' => t("Ad mode"),
+    'description' => t("Ad mode."),
+  );
   return array(
     'types' => array('advertising' => $type),
     'tokens' => array(

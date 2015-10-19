@@ -14,7 +14,6 @@ use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterface {
   /**
@@ -91,18 +90,47 @@ class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterf
     $this->token = $token;
   }
 
+
   /**
    * @inherit
    */
-  public function getAdRessort() {
-    return $this->token->replace('[advertising:ad_ressort]', array(), array('sanitize' => FALSE));
+  public function getAdUnit1() {
+    return $this->token->replace('[advertising:adsc_unit1]', array(), array('sanitize' => FALSE));
   }
 
   /**
    * @inherit
    */
-  public function getAdRubric() {
-    return $this->token->replace('[advertising:ad_rubric]', array(), array('sanitize' => FALSE));
+  public function getAdUnit2() {
+    return $this->token->replace('[advertising:adsc_unit2]', array(), array('sanitize' => FALSE));
+  }
+
+  /**
+   * @inherit
+   */
+  public function getAdUnit3() {
+    return $this->token->replace('[advertising:adsc_unit3]', array(), array('sanitize' => FALSE));
+  }
+
+  /**
+   * @inherit
+   */
+  public function getAdMode() {
+    return $this->token->replace('[advertising:adsc_mode]', array(), array('sanitize' => FALSE));
+  }
+
+  /**
+   * @inherit
+   */
+  public function getAdEngine() {
+    return $this->settings->get('adsc_ad_engine');
+  }
+
+  /**
+   * @inherit
+   */
+  public function getAdContainerTag() {
+    return $this->settings->get('adsc_container_tag');
   }
 
   /**
