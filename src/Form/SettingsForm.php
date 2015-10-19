@@ -92,25 +92,26 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $settings->get('adsc_ad_engine'),
     );
 
+    $adsc_unit2_values = $settings->get('adsc_unit2_values');
     $form['site_settings']['adsc_unit2_values'] = array(
       '#type' => 'textarea',
       '#title' => t('Possible adsc_unit2 values'),
-      '#default_value' => Tags::implode($settings->get('adsc_unit2_values')),
+      '#default_value' => Tags::implode($adsc_unit2_values),
       '#description' => t('Comma separated list of possible values for first hierarchy level')
     );
-
+    $adsc_unit3_values = $settings->get('adsc_unit3_values');
     $form['site_settings']['adsc_unit3_values'] = array(
       '#type' => 'textarea',
       '#title' => t('Possible adsc_unit3 values'),
-      '#default_value' => Tags::implode($settings->get('adsc_unit3_values')),
+      '#default_value' => Tags::implode($adsc_unit3_values),
       '#description' => t('Comma separated list of possible values for second hierarchy level')
     );
 
     $form['default_values']['adsc_unit1_default'] = [
-      '#title' => t('adsc_unit1'),
+      '#title' => t('Ad level 1'),
       '#type' => 'textfield',
       '#default_value' => $settings->get('adsc_unit1_default'),
-      '#description' => t('Name of Website')
+      '#description' => t('First hierarchical level. This is the name of the Website')
     ];
 
     $form['default_values']['adsc_unit1_overridable'] = [
@@ -119,29 +120,42 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $settings->get('adsc_unit1_overridable'),
     ];
 
+
     $form['default_values']['adsc_unit2_default'] = [
-      '#title' => t('adsc_unit2'),
-      '#type' => 'textfield',
+      '#title' => t('Ad level 2'),
       '#default_value' => $settings->get('adsc_unit2_default'),
-      '#description' => t('First hierarchical level')
+      '#description' => t('Second hierarchical level')
     ];
+
+    if(empty($adsc_unit2_values)) {
+      $form['default_values']['adsc_unit2_default']['#type'] = 'textfield';
+    } else {
+      $form['default_values']['adsc_unit2_default']['#type'] = 'select';
+      $form['default_values']['adsc_unit2_default']['#options'] =  array_combine($adsc_unit2_values, $adsc_unit2_values);
+    }
 
     $form['default_values']['adsc_unit2_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Adsc Unit 3 is overrideable'),
+      '#title' => t('Ad level 2 is overrideable'),
       '#default_value' => $settings->get('adsc_unit2_overridable'),
     ];
 
     $form['default_values']['adsc_unit3_default'] = [
-      '#title' => t('adsc_unit3'),
-      '#type' => 'textfield',
+      '#title' => t('Ad level 3'),
       '#default_value' => $settings->get('adsc_unit3_default'),
-      '#description' => t('Second hierarchical level')
+      '#description' => t('Third hierarchical level')
     ];
+
+    if(empty($adsc_unit3_values)) {
+      $form['default_values']['adsc_unit3_default']['#type'] = 'textfield';
+    } else {
+      $form['default_values']['adsc_unit3_default']['#type'] = 'select';
+      $form['default_values']['adsc_unit3_default']['#options'] =  array_combine($adsc_unit3_values, $adsc_unit3_values);
+    }
 
     $form['default_values']['adsc_unit3_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Adsc Unit 3 is overrideable'),
+      '#title' => t('Ad level 3 is overrideable'),
       '#default_value' => $settings->get('adsc_unit3_overridable'),
     ];
 

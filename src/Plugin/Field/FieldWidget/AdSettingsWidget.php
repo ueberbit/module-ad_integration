@@ -105,6 +105,7 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
 
         if(!empty($default_value_element['#options'])) {
           $element[$value_element_name]['#options'] = $default_value_element['#options'];
+          $element[$value_element_name]['#empty_option'] = t('Site default value');
         }
       }
     }
