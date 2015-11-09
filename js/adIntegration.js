@@ -9,6 +9,8 @@
     };
 
     function setTags(settings){
+        if(typeof TFM == "undefined") return;
+
         for(var slot_html_id in settings.AdvertisingSlots) {
             var tag = settings.AdvertisingSlots[slot_html_id][adsc_device];
             $('#' + slot_html_id).html('<script>' + TFM.Tag.getAdTag(tag, slot_html_id) + ';</script>');
