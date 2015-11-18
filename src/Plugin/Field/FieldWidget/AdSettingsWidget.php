@@ -92,6 +92,7 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
   ) {
     $settings = $this->configFactory->get('ad_integration.settings');
     $settingsForm = $this->formBuilder->getForm('\Drupal\ad_integration\Form\SettingsForm');
+    kint(Element::children($settingsForm['default_values']));
     foreach(Element::children($settingsForm['default_values']) as $child_element){
       if(strrpos($child_element, '_overridable') !== FALSE && ($settings->get($child_element) == 1)) {
         $value_element_name = str_replace('_overridable', '', $child_element);

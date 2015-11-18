@@ -44,6 +44,11 @@ class AdSettings extends FieldItemBase {
           'length' => 256,
           'not null' => TRUE,
         ),
+        'adsc_keyword' => array(
+          'type' => 'varchar',
+          'length' => 256,
+          'not null' => TRUE,
+        ),
         'adsc_mode' => array(
           'type' => 'varchar',
           'length' => 256,
@@ -67,6 +72,7 @@ class AdSettings extends FieldItemBase {
     $properties['adsc_unit1'] = DataDefinition::create('string')->setLabel(t('Ad unit 1'));
     $properties['adsc_unit2'] = DataDefinition::create('string')->setLabel(t('Ad unit 2'));
     $properties['adsc_unit3'] = DataDefinition::create('string')->setLabel(t('Ad unit 3'));
+    $properties['adsc_keyword'] = DataDefinition::create('string')->setLabel(t('Ad keyword'));
     $properties['adsc_mode'] = DataDefinition::create('string')->setLabel(t('Ad mode'));
 
     return $properties;
