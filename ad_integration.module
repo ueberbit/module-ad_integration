@@ -77,6 +77,7 @@ function ad_integration_page_attachments(array &$page) {
                    var adsc_adunit2 = '" . $advertisingService->getAdUnit2() . "';
                    var adsc_adunit3 = '" . $advertisingService->getAdUnit3() . "';
                    var adsc_mode = '" . $advertisingService->getAdMode() . "';
+                   var adsc_keyword = '" . $advertisingService->getKeyword() . "';
                    var adsc_mobile = deviceIsMobile().toString();
                    var adsc_device = getDeviceType();",
     ],
