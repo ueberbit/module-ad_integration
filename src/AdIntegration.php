@@ -115,6 +115,13 @@ class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterf
   /**
    * @inherit
    */
+  public function getKeyword() {
+    return $this->token->replace('[advertising:adsc_keyword]', array(), array('sanitize' => FALSE));
+  }
+
+  /**
+   * @inherit
+   */
   public function getAdMode() {
     return $this->token->replace('[advertising:adsc_mode]', array(), array('sanitize' => FALSE));
   }

@@ -92,6 +92,7 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
   ) {
     $settings = $this->configFactory->get('ad_integration.settings');
     $settingsForm = $this->formBuilder->getForm('\Drupal\ad_integration\Form\SettingsForm');
+    // add configurable settings
     foreach(Element::children($settingsForm['default_values']) as $child_element){
       if(strrpos($child_element, '_overridable') !== FALSE && ($settings->get($child_element) == 1)) {
         $value_element_name = str_replace('_overridable', '', $child_element);
@@ -109,6 +110,13 @@ class AdSettingsWidget extends WidgetBase implements ContainerFactoryPluginInter
         }
       }
     }
+    // add keywords
+    $value_element_name = 'adsc_keyword';
+    $element[$value_element_name]['#type'] = 'textfield';
+    $element[$value_element_name]['#title'] = t('Keywords');
+    $element[$value_element_name]['#description'] = t('Comma separated ad keywords');
+    $element[$value_element_name]['#default_value'] = isset($items[$delta]->$value_element_name) ? $items[$delta]->$value_element_name : NULL;
+    $element[$value_element_name]['#required'] = FALSE;
 
     return $element;
   }

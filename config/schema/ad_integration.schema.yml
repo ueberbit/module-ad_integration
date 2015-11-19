@@ -8,12 +8,15 @@ ad_integration.settings:
     adsc_ad_engine:
       type: string
       label: 'Container ad engine'
+    adsc_keyword:
+      type: string
+      label: 'Ad Keyword'
+    adsc_keyword_overridable:
+      type: bool
+      label: 'Ad keyword is overridable'
     adsc_unit1_default:
       type: string
       label: 'Ad unit 1'
-    adsc_unit1_overridable:
-      type: bool
-      label: 'Ad unit 1 is overridable'
     adsc_unit2_default:
       type: string
       label: 'Ad unit 2'

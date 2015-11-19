@@ -14,3 +14,5 @@ adsc_unit3_overridable: 1
 
 adsc_mode_default: ''
 adsc_mode_overridable: 0
+
+adsc_keyword: ''

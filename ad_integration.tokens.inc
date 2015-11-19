@@ -34,6 +34,10 @@ function ad_integration_token_info() {
     'name' => t("Ad unit 3"),
     'description' => t("Ad unit 3."),
   );
+  $ad['adsc_keyword'] = array(
+    'name' => t("Ad keyword"),
+    'description' => t("Komma seperated list of ad keywords."),
+  );
   $ad['adsc_mode'] = array(
     'name' => t("Ad mode"),
     'description' => t("Ad mode."),

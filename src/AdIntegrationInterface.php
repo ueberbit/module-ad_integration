@@ -50,6 +50,14 @@ interface AdIntegrationInterface {
   function getAdUnit3();
 
   /**
+   * Gets Ad keyword
+   *
+   * @return string
+   *   The ad keyword.
+   */
+  function getKeyword();
+
+  /**
    * Gets Ad mode
    *
    * @return string
