@@ -117,9 +117,12 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
 
   public function build() {
     $config = $this->getConfiguration();
-    $html_id = Html::getUniqueId('ad_slot');
+    $html_id = 'ad-slot--' . Crypt::randomBytesBase64(8);
     $render = [
-      '#markup' => '<div id="' . $html_id . '" class="ad-container"></div>'
+      '#markup' => '<div id="' . $html_id . '" class="ad-container"></div>',
+      '#cache' => [
+        'contexts' => ['url']
+      ]
     ];
 
     $attachments = [$html_id => []];
