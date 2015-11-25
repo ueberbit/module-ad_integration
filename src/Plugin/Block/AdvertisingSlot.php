@@ -2,10 +2,9 @@
 
 namespace Drupal\ad_integration\Plugin\Block;
 
-use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
