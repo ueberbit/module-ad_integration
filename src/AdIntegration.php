@@ -129,6 +129,13 @@ class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterf
   /**
    * @inherit
    */
+  public function getAdProvider() {
+    return $this->settings->get('ad_provider');
+  }
+
+  /**
+   * @inherit
+   */
   public function getAdEngine() {
     return $this->settings->get('adsc_ad_engine');
   }

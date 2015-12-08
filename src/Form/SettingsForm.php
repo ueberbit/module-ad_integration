@@ -80,6 +80,14 @@ class SettingsForm extends ConfigFormBase {
       '#group' => 'ad_settings',
     ];
 
+    $provider_options = ['forag' => 'forad', 'orbyt' => 'orbyt'];
+    $form['site_settings']['ad_provider'] = array(
+      '#type' => 'select',
+      '#options' => $provider_options,
+      '#title' => t('Ad provider'),
+      '#default_value' => $settings->get('ad_provider'),
+    );
+
     $form['site_settings']['adsc_container_tag'] = array(
       '#type' => 'textfield',
       '#title' => t('Container tag url'),
@@ -186,6 +194,7 @@ class SettingsForm extends ConfigFormBase {
     $config =$this->configFactory()->getEditable('ad_integration.settings');
     $config->set('adsc_container_tag', $values['adsc_container_tag'])
       ->set('adsc_ad_engine', $values['adsc_ad_engine'])
+      ->set('ad_provider', $values['ad_provider'])
       ->set('adsc_unit1_default', $values['adsc_unit1_default'])
       ->set('adsc_unit1_overridable', $values['adsc_unit1_overridable'])
       ->set('adsc_unit2_default', $values['adsc_unit2_default'])

@@ -2,6 +2,9 @@ ad_integration.settings:
   type: mapping
   label: 'Ad integration settings'
   mapping:
+    ad_provider:
+      type: string
+      label: 'Ad provider'
     adsc_container_tag:
       type: string
       label: 'Container tag url'

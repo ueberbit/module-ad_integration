@@ -54,6 +54,29 @@ function ad_integration_page_attachments(array &$page) {
    * @var Drupal\ad_integration\AdIntegration $advertisingService
    */
   $advertisingService = \Drupal::service('ad_integration');
+  $ad_provider = $advertisingService->getAdProvider();
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'type' => 'text/javascript'
+      ],
+      '#value' => "var adProvider = '" . $ad_provider . "';",
+    ],
+    'advertising_provider'
+  ];
+
+  if ($ad_provider === 'forag') {
+    _attach_forag($page, $advertisingService);
+  }
+}
+
+/**
+ * @param array $page
+ * @param $advertisingService
+ * @return array
+ */
+function _attach_forag(array &$page, $advertisingService) {
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
 
   $page['#attached']['html_head'][] = [
@@ -103,4 +126,5 @@ function ad_integration_page_attachments(array &$page) {
     'ad_engine'
   ];
   $page['#attached']['library'][] = 'ad_integration/id_integration';
+  return $page;
 }

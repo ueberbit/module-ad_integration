@@ -10,6 +10,14 @@ namespace Drupal\ad_integration;
 
 interface AdIntegrationInterface {
   /**
+   * Gets ad provider
+   *
+   * @return string
+   *   The ad provider id.
+   */
+  function getAdProvider();
+
+  /**
    * Gets ad container tag url
    *
    * @return string
