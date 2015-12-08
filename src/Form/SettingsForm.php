@@ -80,7 +80,7 @@ class SettingsForm extends ConfigFormBase {
       '#group' => 'ad_settings',
     ];
 
-    $provider_options = ['forag' => 'forad', 'orbyt' => 'orbyt'];
+    $provider_options = ['fag' => 'fag', 'orbyt' => 'orbyt'];
     $form['site_settings']['ad_provider'] = array(
       '#type' => 'select',
       '#options' => $provider_options,

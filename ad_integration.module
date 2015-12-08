@@ -66,8 +66,8 @@ function ad_integration_page_attachments(array &$page) {
     'advertising_provider'
   ];
 
-  if ($ad_provider === 'forag') {
-    _attach_forag($page, $advertisingService);
+  if ($ad_provider === 'fag') {
+    _attach_fag($page, $advertisingService);
   }
 }
 
@@ -76,7 +76,7 @@ function ad_integration_page_attachments(array &$page) {
  * @param $advertisingService
  * @return array
  */
-function _attach_forag(array &$page, $advertisingService) {
+function _attach_fag(array &$page, $advertisingService) {
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
 
   $page['#attached']['html_head'][] = [
