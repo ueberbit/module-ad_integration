@@ -152,6 +152,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       $attachments[$html_id]['adtag'] = $config['adtag'];
     }
 
+    $render['#attached']['drupalSettings']['AdvertisingSlots'] = $attachments;
     $render['#attached']['drupalSettings']['AdProvider'] = $ad_provider;
 
     return $render;
