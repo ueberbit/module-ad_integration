@@ -55,16 +55,6 @@ function ad_integration_page_attachments(array &$page) {
    */
   $advertisingService = \Drupal::service('ad_integration');
   $ad_provider = $advertisingService->getAdProvider();
-  $page['#attached']['html_head'][] = [
-    [
-      '#tag' => 'script',
-      '#attributes' => [
-        'type' => 'text/javascript'
-      ],
-      '#value' => "var adProvider = '" . $ad_provider . "';",
-    ],
-    'advertising_provider'
-  ];
 
   if ($ad_provider === 'fag') {
     _attach_fag($page, $advertisingService);

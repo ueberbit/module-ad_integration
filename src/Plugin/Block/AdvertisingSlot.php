@@ -2,6 +2,7 @@
 
 namespace Drupal\ad_integration\Plugin\Block;
 
+use Drupal\ad_integration\AdIntegrationInterface;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -27,6 +28,13 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
   protected $configFactory;
 
   /**
+   * The config factory.
+   *
+   * @var AdIntegrationInterface
+   */
+  protected $adIntegration;
+
+  /**
    * Constructs an advertising slot object.
    *
    * @param array $configuration
@@ -37,15 +45,19 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
    *   The plugin implementation definition.
    * @param ConfigFactoryInterface $config_factory
    *   The config factory.
+   * @param AdIntegrationInterface $ad_integration
+   *   The ad integration service.
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
-    ConfigFactoryInterface $config_factory
+    ConfigFactoryInterface $config_factory,
+    AdIntegrationInterface $ad_integration
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $config_factory;
+    $this->adIntegration = $ad_integration;
   }
 
   /**
@@ -57,7 +69,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $plugin_id,
     $plugin_definition
   ) {
-    return new static($configuration, $plugin_id, $plugin_definition, $container->get('config.factory'));
+    return new static($configuration, $plugin_id, $plugin_definition, $container->get('config.factory'), $container->get('ad_integration'));
   }
 
   /**
@@ -88,7 +100,8 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
           '#default_value' => $config[$device] ? $config[$device] : NULL,
         ];
       }
-    } else {
+    }
+    else {
       $form['adtag'] = [
         '#type' => 'textfield',
         '#title' => t('Adtag'),
@@ -109,7 +122,8 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
         $device = $mapping['device'];
         $this->setConfigurationValue($device, $form_state->getValue($device));
       }
-    } else {
+    }
+    else {
       $this->setConfigurationValue('adtag', $form_state->getValue('adtag'));
     }
   }
@@ -117,6 +131,8 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
   public function build() {
     $config = $this->getConfiguration();
     $html_id = 'ad-slot--' . Crypt::randomBytesBase64(8);
+    $ad_provider = $this->adIntegration->getAdProvider();
+
     $render = [
       '#markup' => '<div id="' . $html_id . '" class="ad-container"></div>',
       '#cache' => [
@@ -124,13 +140,15 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       ]
     ];
 
-    $attachments = [$html_id => []];
+    $attachments = [$html_id => [], 'adProvider' => $ad_provider];
+
     if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
         $attachments[$html_id][$device] = $config[$device];
       }
-    } else {
+    }
+    else {
       $attachments[$html_id]['adtag'] = $config['adtag'];
     }
 
@@ -140,7 +158,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
   }
 
   private function getDeviceMappings() {
-    if ($config = $this->configFactory->get('breakpoint_js_settings.settings')){
+    if ($config = $this->configFactory->get('breakpoint_js_settings.settings')) {
       if ($mappings = $config->get('device_mappings')) {
         return $mappings;
       }
