@@ -140,7 +140,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       ]
     ];
 
-    $attachments = [$html_id => [], 'adProvider' => $ad_provider];
+    $attachments = [$html_id => []];
 
     if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
@@ -152,7 +152,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       $attachments[$html_id]['adtag'] = $config['adtag'];
     }
 
-    $render['#attached']['drupalSettings']['AdvertisingSlots'] = $attachments;
+    $render['#attached']['drupalSettings']['AdProvider'] = $ad_provider;
 
     return $render;
   }
