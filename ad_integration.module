@@ -55,20 +55,7 @@ function ad_integration_page_attachments(array &$page) {
    */
   $advertisingService = \Drupal::service('ad_integration');
   $ad_provider = $advertisingService->getAdProvider();
-
-  #if ($ad_provider === 'fag') {
-    _attach_fag($page, $advertisingService);
-  #}
-}
-
-/**
- * @param array $page
- * @param $advertisingService
- * @return array
- */
-function _attach_fag(array &$page, $advertisingService) {
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
-
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
@@ -79,7 +66,54 @@ function _attach_fag(array &$page, $advertisingService) {
     'ad_helper'
   ];
 
+  switch ($ad_provider) {
+    case 'fag':
+      _attach_fag($page, $advertisingService);
+      break;
+    case 'orbyd':
+      _attach_orbyd($page, $advertisingService);
+      break;
+  }
+}
 
+/**
+ * @param array $page
+ * @param $advertisingService
+ * @return array
+ */
+function _attach_orbyd(array &$page, $advertisingService) {
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'type' => 'text/javascript'
+      ],
+      '#value' => "var adunit1 = '" . $advertisingService->getAdUnit1() . "';
+                   var adunit2 = '" . $advertisingService->getAdUnit2() . "';
+                   var adunit3 = '" . $advertisingService->getAdUnit3() . "';
+                   var admode = '" . $advertisingService->getAdMode() . "';
+                   var adkeyword = '" . $advertisingService->getKeyword() . "';
+                   var admobile = deviceIsMobile().toString();
+                   var addevice = getDeviceType();
+
+                   var adsc_adunit1 = '\" . $advertisingService->getAdUnit1() . \"';
+                   var adsc_adunit2 = '\" . $advertisingService->getAdUnit2() . \"';
+                   var adsc_adunit3 = '\" . $advertisingService->getAdUnit3() . \"';
+                   var adsc_mode = '\" . $advertisingService->getAdMode() . \"';
+                   var adsc_keyword = '\" . $advertisingService->getKeyword() . \"';
+                   var adsc_mobile = deviceIsMobile().toString();
+                   var adsc_device = getDeviceType();",
+    ],
+    'advertising_config'
+  ];
+}
+
+/**
+ * @param array $page
+ * @param $advertisingService
+ * @return array
+ */
+function _attach_fag(array &$page, $advertisingService) {
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
