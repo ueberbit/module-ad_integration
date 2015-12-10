@@ -151,7 +151,7 @@ class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterf
    * {@inheritdoc}
    */
   public function getCacheContexts() {
-    return ['url'];
+    return ['url.path'];
   }
 
   /**

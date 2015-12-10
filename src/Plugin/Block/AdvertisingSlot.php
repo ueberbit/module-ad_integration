@@ -136,7 +136,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $render = [
       '#markup' => '<div id="' . $html_id . '" class="ad-container"></div>',
       '#cache' => [
-        'contexts' => ['url']
+        'contexts' => ['url.path']
       ]
     ];
 
