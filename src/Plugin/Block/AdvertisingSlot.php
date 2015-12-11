@@ -141,11 +141,24 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     ];
 
     $attachments = [$html_id => []];
+    /**
+     * Temporary hack to provide easy transition on 1st of january 2016
+     * without hte need of a release.
+     * remove this when correct configuration can be deployed in the first
+     * week of 2016
+     */
+    $tmp_tag_mapping = [
+      'SMARTPHONE_BANNER_ANY' => 30123,
+      'TABLET_BANNER_ANY' => 30123,
+      'DESKTOP_BANNER_ANY' => 30121,
+      'TABLET_RECTANGLE_ANY' => 30124,
+      'DESKTOP_RECTANGLE_ANY' => 30122
+    ];
 
     if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
-        $attachments[$html_id][$device] = $config[$device];
+        $attachments[$html_id][$device] = $tmp_tag_mapping[$config[$device]];
       }
     }
     else {
