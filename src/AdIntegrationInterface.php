@@ -8,7 +8,7 @@
 namespace Drupal\ad_integration;
 
 
-interface AdIntegrationInterface {
+interface AdIntegrationInterface extends CacheableDependencyInterface {
   /**
    * Gets ad provider
    *

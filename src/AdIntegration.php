@@ -15,7 +15,7 @@ use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
 
-class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterface {
+class AdIntegration implements AdIntegrationInterface {
   /**
    * The entity storage object for taxonomy terms.
    *
