@@ -158,7 +158,12 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
-        $attachments[$html_id][$device] = $tmp_tag_mapping[$config[$device]];
+        if($ad_provider === 'orbyd'){
+          $ad_tag = $tmp_tag_mapping[$config[$device]];
+        } else {
+          $ad_tag = $config[$device];
+        }
+        $attachments[$html_id][$device] = $ad_tag;
       }
     }
     else {
