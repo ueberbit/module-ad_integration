@@ -7,6 +7,7 @@
 
 namespace Drupal\ad_integration;
 
+use Drupal\Core\Cache\CacheableDependencyInterface;
 
 interface AdIntegrationInterface extends CacheableDependencyInterface {
   /**
