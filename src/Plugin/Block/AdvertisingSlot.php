@@ -158,6 +158,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
 
     if ($mappings = $this->getDeviceMappings()) {
       foreach ($mappings as $mapping) {
+        $ad_tag = '';
         $device = $mapping['device'];
         // try mapping if ad provider is orbid
         // if mapping fails, use tag directly
