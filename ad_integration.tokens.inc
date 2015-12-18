@@ -101,8 +101,9 @@ function ad_integration_get_setting($name) {
         if(!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
           $fieldName = $fieldDefinition->getName();
           if($tid = $entity->$fieldName->target_id) {
-            $term = Term::load($tid);
-            $termOverride = get_overridden_ad_setting_from_term($name, $term);
+            if ($term = Term::load($tid)) {
+              $termOverride = get_overridden_ad_setting_from_term($name, $term);
+            }
           }
         }
       }
