@@ -100,18 +100,17 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $settings->get('adsc_ad_engine'),
     );
 
-    $adsc_unit2_values = $settings->get('adsc_unit2_values');
     $form['site_settings']['adsc_unit2_values'] = array(
       '#type' => 'textarea',
       '#title' => t('Possible adsc_unit2 values'),
-      '#default_value' => Tags::implode($adsc_unit2_values),
+      '#default_value' => !empty($adsc_unit2_values) ? Tags::implode($adsc_unit2_values) : '',
       '#description' => t('Comma separated list of possible values for first hierarchy level')
     );
     $adsc_unit3_values = $settings->get('adsc_unit3_values');
     $form['site_settings']['adsc_unit3_values'] = array(
       '#type' => 'textarea',
       '#title' => t('Possible adsc_unit3 values'),
-      '#default_value' => Tags::implode($adsc_unit3_values),
+      '#default_value' => !empty($adsc_unit3_values) ? Tags::implode($adsc_unit3_values) : '',
       '#description' => t('Comma separated list of possible values for second hierarchy level')
     );
 
