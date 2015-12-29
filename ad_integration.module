@@ -105,15 +105,7 @@ function _attach_orbyd(array &$page, $advertisingService) {
                    var admode = '" . $advertisingService->getAdMode() . "';
                    var adkeyword = '" . $advertisingService->getKeyword() . "';
                    var admobile = deviceIsMobile().toString();
-                   var addevice = getDeviceType();
-
-                   var adsc_adunit1 = adunit1;
-                   var adsc_adunit2 = adunit2;
-                   var adsc_adunit3 = adunit3;
-                   var adsc_mode = admode;
-                   var adsc_keyword = adkeyword;
-                   var adsc_mobile = admobile;
-                   var adsc_device = addevice",
+                   var addevice = getDeviceType();",
     ],
     'advertising_config'
   ];
