@@ -7,7 +7,6 @@
 
 namespace Drupal\ad_integration;
 
-use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
@@ -15,7 +14,7 @@ use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
 
-class AdIntegration implements AdIntegrationInterface, CacheableDependencyInterface {
+class AdIntegration implements AdIntegrationInterface {
   /**
    * The entity storage object for taxonomy terms.
    *

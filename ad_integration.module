@@ -86,6 +86,17 @@ function _attach_orbyd(array &$page, $advertisingService) {
     [
       '#tag' => 'script',
       '#attributes' => [
+        'src' => '//cdn-tags.orbyd.com/header/27043' ,
+        'type' => 'text/javascript'
+      ],
+    ],
+    'ad_orbyd_head'
+    ];
+
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
         'type' => 'text/javascript'
       ],
       '#value' => "var adunit1 = '" . $advertisingService->getAdUnit1() . "';
