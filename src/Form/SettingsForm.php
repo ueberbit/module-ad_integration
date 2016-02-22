@@ -92,18 +92,28 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => t('Container tag url'),
       '#default_value' => $settings->get('adsc_container_tag'),
+      '#states' => array(
+        'visible' => array(
+          ':input[name=ad_provider]' => array('value' => 'fag'),
+        ),
+      ),
     );
 
     $form['site_settings']['adsc_ad_engine'] = array(
       '#type' => 'textfield',
       '#title' => t('Ad engine'),
       '#default_value' => $settings->get('adsc_ad_engine'),
+      '#states' => array(
+        'visible' => array(
+          ':input[name=ad_provider]' => array('value' => 'fag'),
+        ),
+      ),
     );
     
     $adsc_unit2_values = $settings->get('adsc_unit2_values');
     $form['site_settings']['adsc_unit2_values'] = array(
       '#type' => 'textarea',
-      '#title' => t('Possible adsc_unit2 values'),
+      '#title' => t('First hierarchy level values'),
       '#default_value' => !empty($adsc_unit2_values) ? Tags::implode($adsc_unit2_values) : '',
       '#description' => t('Comma separated list of possible values for first hierarchy level')
     );
@@ -111,7 +121,7 @@ class SettingsForm extends ConfigFormBase {
     $adsc_unit3_values = $settings->get('adsc_unit3_values');
     $form['site_settings']['adsc_unit3_values'] = array(
       '#type' => 'textarea',
-      '#title' => t('Possible adsc_unit3 values'),
+      '#title' => t('Second hierarchy level values'),
       '#default_value' => !empty($adsc_unit3_values) ? Tags::implode($adsc_unit3_values) : '',
       '#description' => t('Comma separated list of possible values for second hierarchy level')
     );
@@ -170,11 +180,16 @@ class SettingsForm extends ConfigFormBase {
 
     $modes = ['full' => 'full', 'infinite' => 'infinite'];
     $form['default_values']['adsc_mode_default'] = [
-      '#title' => t('adsc_mode'),
+      '#title' => t('Adsc mode'),
       '#type' => 'select',
       '#options' => $modes,
       '#default_value' => $settings->get('adsc_mode_default'),
-      '#description' => t('Adsc mode')
+      '#description' => t('Adsc mode, fag provides a special mode for infinite scrolling.'),
+      '#states' => array(
+        'visible' => array(
+          ':input[name=ad_provider]' => array('value' => 'fag'),
+        ),
+      ),
     ];
 
     $form['default_values']['adsc_mode_overridable'] = [
