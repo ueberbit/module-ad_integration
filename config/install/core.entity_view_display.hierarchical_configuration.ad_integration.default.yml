@@ -1,0 +1,65 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_keyword
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_mode
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_unit1
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_unit2
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_unit3
+    - hierarchical_config.hierarchical_configuration_type.ad_integration
+  module:
+    - options
+    - user
+id: hierarchical_configuration.ad_integration.default
+targetEntityType: hierarchical_configuration
+bundle: ad_integration
+mode: default
+content:
+  field_adsc_keyword:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+  field_adsc_mode:
+    weight: 8
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+  field_adsc_unit1:
+    weight: 5
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+  field_adsc_unit2:
+    weight: 6
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+  field_adsc_unit3:
+    weight: 7
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+  name:
+    label: above
+    type: string
+    weight: -4
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

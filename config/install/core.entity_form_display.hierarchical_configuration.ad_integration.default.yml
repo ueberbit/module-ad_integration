@@ -1,0 +1,69 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_keyword
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_mode
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_unit1
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_unit2
+    - field.field.hierarchical_configuration.ad_integration.field_adsc_unit3
+    - hierarchical_config.hierarchical_configuration_type.ad_integration
+id: hierarchical_configuration.ad_integration.default
+targetEntityType: hierarchical_configuration
+bundle: ad_integration
+mode: default
+content:
+  field_adsc_keyword:
+    weight: 14
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+  field_adsc_mode:
+    weight: 18
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+  field_adsc_unit1:
+    weight: 15
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  field_adsc_unit2:
+    weight: 16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  field_adsc_unit3:
+    weight: 17
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+  langcode:
+    type: language_select
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

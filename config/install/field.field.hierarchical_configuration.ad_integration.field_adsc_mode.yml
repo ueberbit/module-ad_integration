@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.hierarchical_configuration.field_adsc_mode
+    - hierarchical_config.hierarchical_configuration_type.ad_integration
+  module:
+    - options
+id: hierarchical_configuration.ad_integration.field_adsc_mode
+field_name: field_adsc_mode
+entity_type: hierarchical_configuration
+bundle: ad_integration
+label: 'Ad mode'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

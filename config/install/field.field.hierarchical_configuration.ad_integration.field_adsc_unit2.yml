@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.hierarchical_configuration.field_adsc_unit2
+    - hierarchical_config.hierarchical_configuration_type.ad_integration
+id: hierarchical_configuration.ad_integration.field_adsc_unit2
+field_name: field_adsc_unit2
+entity_type: hierarchical_configuration
+bundle: ad_integration
+label: 'Ad unit 2'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

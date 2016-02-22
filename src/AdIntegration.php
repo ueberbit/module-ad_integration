@@ -94,35 +94,35 @@ class AdIntegration implements AdIntegrationInterface {
    * @inherit
    */
   public function getAdUnit1() {
-    return $this->token->replace('[advertising:adsc_unit1]', array(), array('sanitize' => FALSE));
+    return $this->token->replace('[hierarchical_configuration:field_adsc_unit1]', array(), array('sanitize' => FALSE));
   }
 
   /**
    * @inherit
    */
   public function getAdUnit2() {
-    return $this->token->replace('[advertising:adsc_unit2]', array(), array('sanitize' => FALSE));
+    return $this->token->replace('[hierarchical_configuration:field_adsc_unit2]', array(), array('sanitize' => FALSE));
   }
 
   /**
    * @inherit
    */
   public function getAdUnit3() {
-    return $this->token->replace('[advertising:adsc_unit3]', array(), array('sanitize' => FALSE));
+    return $this->token->replace('[hierarchical_configuration:field_adsc_unit3]', array(), array('sanitize' => FALSE));
   }
 
   /**
    * @inherit
    */
   public function getKeyword() {
-    return $this->token->replace('[advertising:adsc_keyword]', array(), array('sanitize' => FALSE));
+    return $this->token->replace('[hierarchical_configuration:field_adsc_keyword]', array(), array('sanitize' => FALSE));
   }
 
   /**
    * @inherit
    */
   public function getAdMode() {
-    return $this->token->replace('[advertising:adsc_mode]', array(), array('sanitize' => FALSE));
+    return $this->token->replace('[hierarchical_configuration:field_adsc_mode]', array(), array('sanitize' => FALSE));
   }
 
   /**
