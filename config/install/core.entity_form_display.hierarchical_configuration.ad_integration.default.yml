@@ -46,11 +46,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
-  langcode:
-    type: language_select
-    weight: 10
-    settings: {  }
-    third_party_settings: {  }
   name:
     type: string_textfield
     weight: -4
@@ -58,12 +53,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  user_id:
-    type: entity_reference_autocomplete
-    weight: 5
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  langcode: true
+  user_id: true
