@@ -103,11 +103,6 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => t('Ad engine'),
       '#default_value' => $settings->get('adsc_ad_engine'),
-      '#states' => array(
-        'visible' => array(
-          ':input[name=ad_provider]' => array('value' => 'fag'),
-        ),
-      ),
     );
     
     $adsc_unit2_values = $settings->get('adsc_unit2_values');

@@ -86,7 +86,7 @@ function _attach_orbyd(array &$page, $advertisingService) {
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => '//cdn-tags.orbyd.com/header/27043' ,
+        'src' => $advertisingService->getAdEngine() ,
         'type' => 'text/javascript'
       ],
     ],
