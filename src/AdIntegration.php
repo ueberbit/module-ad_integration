@@ -8,7 +8,7 @@
 namespace Drupal\ad_integration;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
@@ -60,7 +60,7 @@ class AdIntegration implements AdIntegrationInterface {
   /**
    * Generates Advertising information.
    *
-   * @param EntityManagerInterface $entity_manager
+   * @param EntityTypeManagerInterface $entity_manager
    *   The entity query object for taxonomy terms.
    * @param QueryFactory $query
    *   The entity query object for taxonomy terms.
@@ -74,7 +74,7 @@ class AdIntegration implements AdIntegrationInterface {
    *   Token service.
    */
   public function __construct(
-    EntityManagerInterface $entity_manager,
+    EntityTypeManagerInterface $entity_manager,
     QueryFactory $query,
     ConfigFactoryInterface $config_factory,
     PathMatcher $path_match,

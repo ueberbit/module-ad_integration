@@ -142,7 +142,7 @@ function get_overridden_ad_setting_from_term($name, Term $term) {
     }
   }
 
-  foreach (\Drupal::entityManager()->getStorage('taxonomy_term')->loadParents($term->id()) as $parent) {
+  foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term->id()) as $parent) {
     $override =  get_overridden_ad_setting_from_term($name, $parent);
     if (isset($override)) {
       return $override;

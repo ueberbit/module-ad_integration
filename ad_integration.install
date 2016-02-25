@@ -6,7 +6,7 @@
 function ad_integration_update_8001() {
   $database = \Drupal::database();
   $database_schema = $database->schema();
-  $entity_types = \Drupal::entityManager()->getDefinitions();
+  $entity_types = \Drupal::entityTypeManager()->getDefinitions();
 
   $schema = \Drupal::keyValue('entity.storage_schema.sql')->getAll();
   $schema_copy = $schema;
