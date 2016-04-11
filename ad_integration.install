@@ -41,3 +41,75 @@ function ad_integration_update_8001() {
   }
   \Drupal::keyValue('entity.storage_schema.sql')->setMultiple($schema_copy);
 }
+
+
+/**
+ * Migrate ad fields
+ */
+function ad_integration_update_8002() {
+
+  $entity_types = \Drupal::service('entity_type.bundle.info')
+    ->getAllBundleInfo();
+
+  foreach ($entity_types as $entity_type_id => $bundles) {
+
+    foreach ($bundles as $bundle => $bundle_info) {
+      $table = '';
+
+      try {
+
+        /** @var \Drupal\field\FieldConfigInterface[] $fields */
+        $fields = \Drupal::service('entity_field.manager')
+          ->getFieldDefinitions($entity_type_id, $bundle);
+
+        foreach ($fields as $field) {
+
+          if ($field->getType() == 'ad_integration_settings') {
+            $table = $entity_type_id . '__' . $field->getName();
+          }
+        }
+
+        if ($table) {
+
+          $result = db_select($table, 'a')
+            ->fields('a', [])
+            ->where('bundle = \'' . $bundle . '\' AND  (field_advertising_adsc_unit1  <> \'\' OR field_advertising_adsc_unit2  <> \'\' OR field_advertising_adsc_unit3  <> \'\' OR field_advertising_adsc_keyword  <> \'\')')
+            ->execute();
+
+          /** @var \Drupal\Core\Field\FieldDefinitionInterface[] $field_infos */
+          $field_infos = \Drupal::service('entity_field.manager')
+            ->getFieldDefinitions($entity_type_id, $bundle);
+
+          $field_name = '';
+          foreach ($field_infos as $field_info) {
+
+            if ($field_info->getType() == 'entity_reference' && $field_info->getSetting('handler') == 'default:hierarchical_configuration' && in_array('ad_integration', $field_info->getSetting('handler_settings')['target_bundles'])) {
+              $field_name = $field_info->getName();
+            }
+          }
+
+          foreach ($result->fetchAll() as $item) {
+
+            $config = \Drupal\hierarchical_config\Entity\HierarchicalConfiguration::create([
+              'field_adsc_unit1' => $item->field_advertising_adsc_unit1,
+              'field_adsc_unit2' => $item->field_advertising_adsc_unit2,
+              'field_adsc_unit3' => $item->field_advertising_adsc_unit3,
+              'field_adsc_keyword' => $item->field_advertising_adsc_keyword,
+              'type' => 'ad_integration',
+              'name' => 'Ad Integration'
+            ]);
+
+            $config->save();
+
+            $entity = entity_load($entity_type_id, $item->entity_id);
+            $entity->$field_name = $config->id();
+            $entity->save();
+          }
+        }
+
+      } catch (\Exception $d) {
+
+      }
+    }
+  }
+}
