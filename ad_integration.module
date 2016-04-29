@@ -86,17 +86,6 @@ function _attach_orbyd(array &$page, $advertisingService) {
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => $advertisingService->getAdEngine() ,
-        'type' => 'text/javascript'
-      ],
-    ],
-    'ad_orbyd_head'
-    ];
-
-  $page['#attached']['html_head'][] = [
-    [
-      '#tag' => 'script',
-      '#attributes' => [
         'type' => 'text/javascript'
       ],
       '#value' => "var adunit1 = '" . $advertisingService->getAdUnit1() . "';
@@ -108,6 +97,16 @@ function _attach_orbyd(array &$page, $advertisingService) {
                    var addevice = getDeviceType();",
     ],
     'advertising_config'
+  ];
+  $page['#attached']['html_head'][] = [
+    [
+      '#tag' => 'script',
+      '#attributes' => [
+        'src' => $advertisingService->getAdEngine() ,
+        'type' => 'text/javascript'
+      ],
+    ],
+    'ad_orbyd_head'
   ];
 }
 
