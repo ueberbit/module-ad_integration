@@ -98,16 +98,19 @@ function _attach_orbyd(array &$page, $advertisingService) {
     ],
     'advertising_config'
   ];
-  $page['#attached']['html_head'][] = [
-    [
-      '#tag' => 'script',
-      '#attributes' => [
-        'src' => $advertisingService->getAdEngine() ,
-        'type' => 'text/javascript'
+  $adengine = $advertisingService->getAdEngine();
+  if($adengine) {
+    $page['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => $adengine,
+          'type' => 'text/javascript'
+        ],
       ],
-    ],
-    'ad_orbyd_head'
-  ];
+      'ad_orbyd_head'
+    ];
+  }
 }
 
 /**
