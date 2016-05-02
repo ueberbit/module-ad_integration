@@ -81,6 +81,21 @@ function ad_integration_get_setting($name) {
      * @var ContentEntityInterface $entity
      */
     if($entity = $currentRoutematch->getParameter($parameter)){
+
+      // The Entity might not be loaded so we need to check if we only
+      // got the entity id.
+      if (is_numeric($entity)) {
+        switch ($parameter) {
+          case "node":
+            $entity = \Drupal\node\Entity\Node::load($entity);
+            break;
+          case "taxonomy_term":
+            $entity = \Drupal\taxonomy\Entity\Term::load($entity);
+            break;
+          default:
+            break;
+        }
+      }
       /**
        * Search for ad_integration_settings field
        */
