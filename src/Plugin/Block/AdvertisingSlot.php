@@ -76,9 +76,9 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
-    $defaults = [];
-
-    return $defaults;
+    return [
+      'adtype' => 'iframe'
+    ];
   }
 
   /**
@@ -109,6 +109,13 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       ];
     }
 
+    $form['adtype'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Ad type'),
+      '#required' => TRUE,
+      '#default_value' => $config['adtype'] ? $config['adtype'] : 'iframe',
+      '#options' => array('inline' => $this->t('Inline'), 'iframe' => $this->t('IFrame'))
+    ];
     return $form;
   }
 
@@ -126,6 +133,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     else {
       $this->setConfigurationValue('adtag', $form_state->getValue('adtag'));
     }
+    $this->setConfigurationValue('adtype', $form_state->getValue('adtype'));
   }
 
   public function build() {
@@ -134,10 +142,13 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $ad_provider = $this->adIntegration->getAdProvider();
 
     $render = [
-      '#markup' => '<div id="' . $html_id . '" class="ad-container"></div>',
+      '#theme' => 'ad_slot_' . $config['adtype'],
+      '#html_id' => $html_id,
+      '#ad_tag' => array(),
       '#cache' => [
         'contexts' => ['url.path'],
         'tags' => $this->adIntegration->getCacheTags(),
+        'max-age' => \Drupal\Core\Cache\Cache::PERMANENT
       ]
     ];
 
@@ -147,10 +158,12 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       foreach ($mappings as $mapping) {
         $device = $mapping['device'];
         $attachments[$html_id][$device] = $config[$device];
+        $render['#ad_tag'][$device] = $config[$device];
       }
     }
     else {
       $attachments[$html_id]['adtag'] = $config['adtag'];
+      $render['#ad_tags']['desktop'] = $config['adtag'];
     }
 
     $render['#attached']['drupalSettings']['AdvertisingSlots'] = $attachments;
