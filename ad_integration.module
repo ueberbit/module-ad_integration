@@ -5,6 +5,28 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
+ * Implements hook_theme().
+ */
+function ad_integration_theme() {
+  return array(
+    'ad_slot_inline' => array(
+      'template' => 'ad-slot-inline',
+      'variables' => array(
+        'html_id' => NULL,
+        'ad_tag' => NULL
+      ),
+    ),
+    'ad_slot_iframe' => array(
+      'template' => 'ad-slot-iframe',
+      'variables' => array(
+        'html_id' => NULL,
+        'ad_tag' => NULL
+      ),
+    )
+  );
+}
+
+/**
  * Implements hook_form_BASE_FORM_ID_alter() for node_form().
  */
 function ad_integration_form_node_form_alter(&$form, FormStateInterface $form_state) {
@@ -21,8 +43,8 @@ function ad_integration_form_node_form_alter(&$form, FormStateInterface $form_st
       $form[$fieldDefinition->getName()]['#group'] = 'ad_integration_settings_override';
     }
   }
-  if($has_settings) {
-    if(!isset($form['advanced'])) {
+  if ($has_settings) {
+    if (!isset($form['advanced'])) {
       $form['advanced'] = array(
         '#type' => 'vertical_tabs',
         '#weight' => 99,
@@ -98,16 +120,19 @@ function _attach_orbyd(array &$page, $advertisingService) {
     ],
     'advertising_config'
   ];
-  $page['#attached']['html_head'][] = [
-    [
-      '#tag' => 'script',
-      '#attributes' => [
-        'src' => $advertisingService->getAdEngine() ,
-        'type' => 'text/javascript'
+  $adengine = $advertisingService->getAdEngine();
+  if ($adengine) {
+    $page['#attached']['html_head'][] = [
+      [
+        '#tag' => 'script',
+        '#attributes' => [
+          'src' => $adengine,
+          'type' => 'text/javascript'
+        ],
       ],
-    ],
-    'ad_orbyd_head'
-  ];
+      'ad_orbyd_head'
+    ];
+  }
 }
 
 /**
