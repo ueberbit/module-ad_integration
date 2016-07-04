@@ -1,7 +1,11 @@
 <?php
 
+/**
+ * @file
+ * Contains module hooks.
+ */
+
 use Drupal\Core\Cache\Cache;
-use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -13,16 +17,16 @@ function ad_integration_theme() {
       'template' => 'ad-slot-inline',
       'variables' => array(
         'html_id' => NULL,
-        'ad_tag' => NULL
+        'ad_tag' => NULL,
       ),
     ),
     'ad_slot_iframe' => array(
       'template' => 'ad-slot-iframe',
       'variables' => array(
         'html_id' => NULL,
-        'ad_tag' => NULL
+        'ad_tag' => NULL,
       ),
-    )
+    ),
   );
 }
 
@@ -33,7 +37,7 @@ function ad_integration_form_node_form_alter(&$form, FormStateInterface $form_st
   /* Is there a better way to get the node? */
   $entity = $form_state->getBuildInfo()['callback_object']->getEntity();
 
-  /**
+  /*
    * Set group of all ad_integration_settings elements
    */
   $has_settings = FALSE;
@@ -72,9 +76,7 @@ function ad_integration_form_taxonomy_term_form_alter(&$form, FormStateInterface
  * Implements template_preprocess_html().
  */
 function ad_integration_page_attachments(array &$page) {
-  /**
-   * @var Drupal\ad_integration\AdIntegration $advertisingService
-   */
+  /* @var Drupal\ad_integration\AdIntegration $advertisingService */
   $advertisingService = \Drupal::service('ad_integration');
   $ad_provider = $advertisingService->getAdProvider();
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
@@ -82,16 +84,17 @@ function ad_integration_page_attachments(array &$page) {
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => '/' . drupal_get_path('module', 'ad_integration') . '/js/adHelper.js'
+        'src' => '/' . drupal_get_path('module', 'ad_integration') . '/js/adHelper.js',
       ],
     ],
-    'ad_helper'
+    'ad_helper',
   ];
 
   switch ($ad_provider) {
     case 'fag':
       _attach_fag($page, $advertisingService);
       break;
+
     case 'orbyd':
       _attach_orbyd($page, $advertisingService);
       break;
@@ -108,7 +111,7 @@ function _attach_orbyd(array &$page, $advertisingService) {
     [
       '#tag' => 'script',
       '#attributes' => [
-        'type' => 'text/javascript'
+        'type' => 'text/javascript',
       ],
       '#value' => "var adunit1 = '" . $advertisingService->getAdUnit1() . "';
                    var adunit2 = '" . $advertisingService->getAdUnit2() . "';
@@ -118,7 +121,7 @@ function _attach_orbyd(array &$page, $advertisingService) {
                    var admobile = deviceIsMobile().toString();
                    var addevice = getDeviceType();",
     ],
-    'advertising_config'
+    'advertising_config',
   ];
   $adengine = $advertisingService->getAdEngine();
   if ($adengine) {
@@ -127,10 +130,10 @@ function _attach_orbyd(array &$page, $advertisingService) {
         '#tag' => 'script',
         '#attributes' => [
           'src' => $adengine,
-          'type' => 'text/javascript'
+          'type' => 'text/javascript',
         ],
       ],
-      'ad_orbyd_head'
+      'ad_orbyd_head',
     ];
   }
 }
@@ -145,7 +148,7 @@ function _attach_fag(array &$page, $advertisingService) {
     [
       '#tag' => 'script',
       '#attributes' => [
-        'type' => 'text/javascript'
+        'type' => 'text/javascript',
       ],
       '#value' => "var adsc_adunit1 = '" . $advertisingService->getAdUnit1() . "';
                    var adsc_adunit2 = '" . $advertisingService->getAdUnit2() . "';
@@ -155,26 +158,26 @@ function _attach_fag(array &$page, $advertisingService) {
                    var adsc_mobile = deviceIsMobile().toString();
                    var adsc_device = getDeviceType();",
     ],
-    'advertising_config'
+    'advertising_config',
   ];
 
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => $advertisingService->getAdContainerTag()
+        'src' => $advertisingService->getAdContainerTag(),
       ],
     ],
-    'container_tag'
+    'container_tag',
   ];
   $page['#attached']['html_head'][] = [
     [
       '#tag' => 'script',
       '#attributes' => [
-        'src' => $advertisingService->getAdEngine()
+        'src' => $advertisingService->getAdEngine(),
       ],
     ],
-    'ad_engine'
+    'ad_engine',
   ];
   $page['#attached']['library'][] = 'ad_integration/id_integration';
   return $page;

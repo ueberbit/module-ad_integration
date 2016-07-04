@@ -2,6 +2,7 @@
 
 namespace Drupal\ad_integration\Plugin\Block;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\ad_integration\AdIntegrationInterface;
 use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Block\BlockBase;
@@ -77,7 +78,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
    */
   public function defaultConfiguration() {
     return [
-      'adtype' => 'iframe'
+      'adtype' => 'iframe',
     ];
   }
 
@@ -88,7 +89,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $form = parent::blockForm($form, $form_state);
     $config = $this->getConfiguration();
 
-    /**
+    /*
      * TODO: turn textfield into select list from configurable ad tags
      */
     if ($mappings = $this->getDeviceMappings()) {
@@ -114,7 +115,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       '#title' => $this->t('Ad type'),
       '#required' => TRUE,
       '#default_value' => $config['adtype'] ? $config['adtype'] : 'iframe',
-      '#options' => array('inline' => $this->t('Inline'), 'iframe' => $this->t('IFrame'))
+      '#options' => array('inline' => $this->t('Inline'), 'iframe' => $this->t('IFrame')),
     ];
     return $form;
   }
@@ -136,6 +137,9 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     $this->setConfigurationValue('adtype', $form_state->getValue('adtype'));
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $config = $this->getConfiguration();
     $html_id = 'ad-slot--' . Crypt::randomBytesBase64(8);
@@ -148,8 +152,8 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
       '#cache' => [
         'contexts' => ['url.path'],
         'tags' => $this->adIntegration->getCacheTags(),
-        'max-age' => \Drupal\Core\Cache\Cache::PERMANENT
-      ]
+        'max-age' => Cache::PERMANENT,
+      ],
     ];
 
     $attachments = [$html_id => []];
@@ -172,6 +176,12 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     return $render;
   }
 
+  /**
+   * Get Device Mappings.
+   *
+   * @return mixed
+   *   Returns mappings, if not found returns FALSE.
+   */
   private function getDeviceMappings() {
     if ($config = $this->configFactory->get('breakpoint_js_settings.settings')) {
       if ($mappings = $config->get('device_mappings')) {
@@ -180,4 +190,5 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     }
     return FALSE;
   }
+
 }

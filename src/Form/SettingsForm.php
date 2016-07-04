@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\ad_integration\Form\SettingsForm.
- */
-
 namespace Drupal\ad_integration\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -29,9 +24,9 @@ class SettingsForm extends ConfigFormBase {
    * Constructs a \Drupal\ad_integration\SettingsForm object.
    *
    * @param ConfigFactoryInterface $config_factory
-   *  The factory for configuration objects.
+   *   The factory for configuration objects.
    * @param Token $token
-   *  The token object.
+   *   The token object.
    */
   public function __construct(ConfigFactoryInterface $config_factory, Token $token) {
     parent::__construct($config_factory);
@@ -104,13 +99,13 @@ class SettingsForm extends ConfigFormBase {
       '#title' => t('Ad engine'),
       '#default_value' => $settings->get('adsc_ad_engine'),
     );
-    
+
     $adsc_unit2_values = $settings->get('adsc_unit2_values');
     $form['site_settings']['adsc_unit2_values'] = array(
       '#type' => 'textarea',
       '#title' => t('First hierarchy level values'),
       '#default_value' => !empty($adsc_unit2_values) ? Tags::implode($adsc_unit2_values) : '',
-      '#description' => t('Comma separated list of possible values for first hierarchy level')
+      '#description' => t('Comma separated list of possible values for first hierarchy level'),
     );
 
     $adsc_unit3_values = $settings->get('adsc_unit3_values');
@@ -118,14 +113,14 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#title' => t('Second hierarchy level values'),
       '#default_value' => !empty($adsc_unit3_values) ? Tags::implode($adsc_unit3_values) : '',
-      '#description' => t('Comma separated list of possible values for second hierarchy level')
+      '#description' => t('Comma separated list of possible values for second hierarchy level'),
     );
 
     $form['default_values']['adsc_unit1_default'] = [
       '#title' => t('Ad level 1'),
       '#type' => 'textfield',
       '#default_value' => $settings->get('adsc_unit1_default'),
-      '#description' => t('First hierarchical level. This is the name of the Website')
+      '#description' => t('First hierarchical level. This is the name of the Website'),
     ];
 
     $form['default_values']['adsc_unit1_overridable'] = [
@@ -134,18 +129,18 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $settings->get('adsc_unit1_overridable'),
     ];
 
-
     $form['default_values']['adsc_unit2_default'] = [
       '#title' => t('Ad level 2'),
       '#default_value' => $settings->get('adsc_unit2_default'),
-      '#description' => t('Second hierarchical level')
+      '#description' => t('Second hierarchical level'),
     ];
 
-    if(empty($adsc_unit2_values)) {
+    if (empty($adsc_unit2_values)) {
       $form['default_values']['adsc_unit2_default']['#type'] = 'textfield';
-    } else {
+    }
+    else {
       $form['default_values']['adsc_unit2_default']['#type'] = 'select';
-      $form['default_values']['adsc_unit2_default']['#options'] =  array_combine($adsc_unit2_values, $adsc_unit2_values);
+      $form['default_values']['adsc_unit2_default']['#options'] = array_combine($adsc_unit2_values, $adsc_unit2_values);
     }
 
     $form['default_values']['adsc_unit2_overridable'] = [
@@ -157,14 +152,15 @@ class SettingsForm extends ConfigFormBase {
     $form['default_values']['adsc_unit3_default'] = [
       '#title' => t('Ad level 3'),
       '#default_value' => $settings->get('adsc_unit3_default'),
-      '#description' => t('Third hierarchical level')
+      '#description' => t('Third hierarchical level'),
     ];
 
-    if(empty($adsc_unit3_values)) {
+    if (empty($adsc_unit3_values)) {
       $form['default_values']['adsc_unit3_default']['#type'] = 'textfield';
-    } else {
+    }
+    else {
       $form['default_values']['adsc_unit3_default']['#type'] = 'select';
-      $form['default_values']['adsc_unit3_default']['#options'] =  array_combine($adsc_unit3_values, $adsc_unit3_values);
+      $form['default_values']['adsc_unit3_default']['#options'] = array_combine($adsc_unit3_values, $adsc_unit3_values);
     }
 
     $form['default_values']['adsc_unit3_overridable'] = [
@@ -202,7 +198,7 @@ class SettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
     $values = $form_state->getValues();
-    $config =$this->configFactory()->getEditable('ad_integration.settings');
+    $config = $this->configFactory()->getEditable('ad_integration.settings');
     $config->set('adsc_container_tag', $values['adsc_container_tag'])
       ->set('adsc_ad_engine', $values['adsc_ad_engine'])
       ->set('ad_provider', $values['ad_provider'])
@@ -219,7 +215,6 @@ class SettingsForm extends ConfigFormBase {
       ->save();
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -228,4 +223,5 @@ class SettingsForm extends ConfigFormBase {
       'ad_integration.settings',
     ];
   }
+
 }

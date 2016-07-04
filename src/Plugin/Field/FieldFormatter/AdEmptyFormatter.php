@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ad_integration\Plugin\Field\FieldFormatter\AdEmptyFormatter.
- */
-
 namespace Drupal\ad_integration\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FormatterBase;

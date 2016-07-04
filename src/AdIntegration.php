@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ad_integration\AdTracker
- */
-
 namespace Drupal\ad_integration;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -14,6 +9,11 @@ use Drupal\Core\Path\PathMatcher;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Utility\Token;
 
+/**
+ * Class AdIntegration.
+ *
+ * @package Drupal\ad_integration
+ */
 class AdIntegration implements AdIntegrationInterface {
   /**
    * The entity storage object for taxonomy terms.
@@ -89,58 +89,57 @@ class AdIntegration implements AdIntegrationInterface {
     $this->token = $token;
   }
 
-
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdUnit1() {
     return $this->token->replace('[advertising:adsc_unit1]', array(), array('sanitize' => FALSE));
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdUnit2() {
     return $this->token->replace('[advertising:adsc_unit2]', array(), array('sanitize' => FALSE));
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdUnit3() {
     return $this->token->replace('[advertising:adsc_unit3]', array(), array('sanitize' => FALSE));
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getKeyword() {
     return $this->token->replace('[advertising:adsc_keyword]', array(), array('sanitize' => FALSE));
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdMode() {
     return $this->token->replace('[advertising:adsc_mode]', array(), array('sanitize' => FALSE));
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdProvider() {
     return $this->settings->get('ad_provider');
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdEngine() {
     return $this->settings->get('adsc_ad_engine');
   }
 
   /**
-   * @inherit
+   * {@inheritdoc}
    */
   public function getAdContainerTag() {
     return $this->settings->get('adsc_container_tag');
@@ -166,5 +165,5 @@ class AdIntegration implements AdIntegrationInterface {
   public function getCacheMaxAge() {
     return 0;
   }
-}
 
+}

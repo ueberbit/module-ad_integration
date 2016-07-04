@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\ad_integration\Plugin\Field\FieldType\AdSettings.
- */
-
 namespace Drupal\ad_integration\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldItemBase;
@@ -23,6 +18,7 @@ use Drupal\Core\TypedData\DataDefinition;
  * )
  */
 class AdSettings extends FieldItemBase {
+
   /**
    * {@inheritdoc}
    */
@@ -77,4 +73,5 @@ class AdSettings extends FieldItemBase {
 
     return $properties;
   }
+
 }

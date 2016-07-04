@@ -5,11 +5,10 @@
  * Builds placeholder replacement tokens for ad-related data.
  */
 
+use Drupal\node\Entity\Node;
 use Drupal\Component\Utility\Xss;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Render\BubbleableMetadata;
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Routing\CurrentRouteMatch;
 
 /**
  * Implements hook_token_info().
@@ -21,7 +20,7 @@ function ad_integration_token_info() {
     'needs-data' => 'advertising',
   );
 
-  // Core comment tokens
+  // Core comment tokens.
   $ad['adsc_unit1'] = array(
     'name' => t("Ad unit 1"),
     'description' => t("Ad unit 1."),
@@ -68,64 +67,58 @@ function ad_integration_tokens($type, $tokens, array $data, array $options, Bubb
 }
 
 function ad_integration_get_setting($name) {
-  /**
-   * @var CurrentRouteMatch $currentRoutematch
-   */
+  /* @var CurrentRouteMatch $currentRoutematch */
   $currentRoutematch = \Drupal::service('current_route_match');
 
   $parameters = ['node', 'taxonomy_term'];
 
   $entity = NULL;
-  foreach($parameters as $parameter){
-    /**
-     * @var ContentEntityInterface $entity
-     */
-    if($entity = $currentRoutematch->getParameter($parameter)){
+  foreach ($parameters as $parameter) {
+    /* @var ContentEntityInterface $entity */
+    if ($entity = $currentRoutematch->getParameter($parameter)) {
 
       // The Entity might not be loaded so we need to check if we only
       // got the entity id.
       if (is_numeric($entity)) {
         switch ($parameter) {
           case "node":
-            $entity = \Drupal\node\Entity\Node::load($entity);
+            $entity = Node::load($entity);
             break;
+
           case "taxonomy_term":
-            $entity = \Drupal\taxonomy\Entity\Term::load($entity);
+            $entity = Term::load($entity);
             break;
+
           default:
             break;
         }
       }
-      /**
-       * Search for ad_integration_settings field
-       */
+
+      // Search for ad_integration_settings field.
       foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
-        $fieldType =  $fieldDefinition->getType();
-        /**
-         * If settings are found, check if an overridden value for the
-         * given setting is found and return that
-         */
+        $fieldType = $fieldDefinition->getType();
+
+        // If settings are found, check if an overridden value for the
+        // given setting is found and return that.
         $overiddenSetting = get_overridden_ad_setting($name, $fieldDefinition, $entity);
-        if (isset($overiddenSetting)){
+        if (isset($overiddenSetting)) {
           return $overiddenSetting;
         }
 
-        /**
-         * Check for fallback categories if no ad_integration_setting is found
-         */
-        if(!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+        // Check for fallback categories if no ad_integration_setting is found.
+        if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
           $fieldName = $fieldDefinition->getName();
-          if($tid = $entity->$fieldName->target_id) {
+          if ($tid = $entity->$fieldName->target_id) {
             if ($term = Term::load($tid)) {
               $termOverride = get_overridden_ad_setting_from_term($name, $term);
             }
           }
         }
       }
-      /**
-       * If we not returned before, it is possible, that we found a termOverride
-       */
-      if(isset($termOverride)) {
+
+      // If we not returned before, it is possible,
+      // that we found a termOverride.
+      if (isset($termOverride)) {
         return $termOverride;
       }
     }
@@ -158,7 +151,7 @@ function get_overridden_ad_setting_from_term($name, Term $term) {
   }
 
   foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term->id()) as $parent) {
-    $override =  get_overridden_ad_setting_from_term($name, $parent);
+    $override = get_overridden_ad_setting_from_term($name, $parent);
     if (isset($override)) {
       return $override;
     }
