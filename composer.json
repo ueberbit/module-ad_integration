@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "drupal/breakpoint_js_settings": "8.1.0-rc1"
+    "drupal/breakpoint_js_settings": "1.0-rc1"
   },
   "require-dev": {
     "burdamagazinorg/thunder-dev-tools": "dev-master"
