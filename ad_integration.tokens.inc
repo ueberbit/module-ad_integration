@@ -5,10 +5,10 @@
  * Builds placeholder replacement tokens for ad-related data.
  */
 
-use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Component\Utility\Xss;
-use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\taxonomy\TermInterface;
 
 /**
  * Implements hook_token_info().
@@ -57,103 +57,38 @@ function ad_integration_tokens($type, $tokens, array $data, array $options, Bubb
   $replacements = array();
 
   if ($type == 'advertising') {
+
+    $lookupFrom = 'currentRoute';
+    if (isset($data['entity']) && $data['entity'] instanceof ContentEntityInterface) {
+      $lookupFrom = 'entity';
+    }
+    elseif (isset($data['term']) && $data['term'] instanceof  TermInterface) {
+      $lookupFrom = 'term';
+    }
+
+    /** @var \Drupal\ad_integration\AdIntegrationLookupInterface $lookup */
+    $lookup = \Drupal::service('ad_integration.lookup');
     foreach ($tokens as $name => $original) {
-      $replacement = ad_integration_get_setting($name);
+      switch ($lookupFrom) {
+        case 'currentRoute':
+          $replacement = $lookup->byCurrentRoute($name);
+          break;
+
+        case 'entity':
+          $replacement = $lookup->byEntity($name, $data['entity']);
+          break;
+
+        case 'term':
+          $replacement = $lookup->byTerm($name, $data['term']);
+          break;
+
+        default:
+          $replacement = NULL;
+          break;
+      }
       $replacements[$original] = $sanitize ? Xss::filter($replacement) : $replacement;
     }
   }
 
   return $replacements;
-}
-
-function ad_integration_get_setting($name) {
-  /* @var CurrentRouteMatch $currentRoutematch */
-  $currentRoutematch = \Drupal::service('current_route_match');
-
-  $parameters = ['node', 'taxonomy_term'];
-
-  $entity = NULL;
-  foreach ($parameters as $parameter) {
-    /* @var ContentEntityInterface $entity */
-    if ($entity = $currentRoutematch->getParameter($parameter)) {
-
-      // The Entity might not be loaded so we need to check if we only
-      // got the entity id.
-      if (is_numeric($entity)) {
-        switch ($parameter) {
-          case "node":
-            $entity = Node::load($entity);
-            break;
-
-          case "taxonomy_term":
-            $entity = Term::load($entity);
-            break;
-
-          default:
-            break;
-        }
-      }
-
-      // Search for ad_integration_settings field.
-      foreach ($entity->getFieldDefinitions() as $fieldDefinition) {
-        $fieldType = $fieldDefinition->getType();
-
-        // If settings are found, check if an overridden value for the
-        // given setting is found and return that.
-        $overiddenSetting = get_overridden_ad_setting($name, $fieldDefinition, $entity);
-        if (isset($overiddenSetting)) {
-          return $overiddenSetting;
-        }
-
-        // Check for fallback categories if no ad_integration_setting is found.
-        if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
-          $fieldName = $fieldDefinition->getName();
-          if ($tid = $entity->$fieldName->target_id) {
-            if ($term = Term::load($tid)) {
-              $termOverride = get_overridden_ad_setting_from_term($name, $term);
-            }
-          }
-        }
-      }
-
-      // If we not returned before, it is possible,
-      // that we found a termOverride.
-      if (isset($termOverride)) {
-        return $termOverride;
-      }
-    }
-  }
-
-  $default_setting_key = $name . '_default';
-  return \Drupal::config('ad_integration.settings')->get($default_setting_key);
-}
-
-/**
- * @param $name
- * @param $fieldDefinition
- * @param $entity
- */
-function get_overridden_ad_setting($name, $fieldDefinition, $entity) {
-  if ($fieldDefinition->getType() === 'ad_integration_settings') {
-    $fieldName = $fieldDefinition->getName();
-    if (!empty($entity->$fieldName->get(0)->$name)) {
-      return $entity->$fieldName->get(0)->$name;
-    }
-  }
-}
-
-function get_overridden_ad_setting_from_term($name, Term $term) {
-  foreach ($term->getFieldDefinitions() as $fieldDefinition) {
-    $override = get_overridden_ad_setting($name, $fieldDefinition, $term);
-    if (isset($override)) {
-      return $override;
-    }
-  }
-
-  foreach (\Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term->id()) as $parent) {
-    $override = get_overridden_ad_setting_from_term($name, $parent);
-    if (isset($override)) {
-      return $override;
-    }
-  }
 }

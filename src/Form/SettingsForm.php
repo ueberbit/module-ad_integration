@@ -94,6 +94,18 @@ class SettingsForm extends ConfigFormBase {
       ),
     );
 
+    $form['site_settings']['adsc_fia_tag'] = array(
+      '#type' => 'textfield',
+      '#title' => t('FB Instant Articles: Ad-Tag'),
+      '#default_value' => $settings->get('adsc_fia_tag'),
+      '#description' => t('The Ad-Tag for Facebook Instant Articles provided by Orbyd'),
+      '#states' => array(
+        'visible' => array(
+          ':input[name=ad_provider]' => array('value' => 'orbyd'),
+        ),
+      ),
+    );
+
     $form['site_settings']['adsc_ad_engine'] = array(
       '#type' => 'textfield',
       '#title' => t('Ad engine'),
@@ -200,6 +212,7 @@ class SettingsForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $config = $this->configFactory()->getEditable('ad_integration.settings');
     $config->set('adsc_container_tag', $values['adsc_container_tag'])
+      ->set('adsc_fia_tag', $values['adsc_fia_tag'])
       ->set('adsc_ad_engine', $values['adsc_ad_engine'])
       ->set('ad_provider', $values['ad_provider'])
       ->set('adsc_unit1_default', $values['adsc_unit1_default'])

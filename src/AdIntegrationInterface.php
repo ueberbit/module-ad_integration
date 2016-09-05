@@ -38,41 +38,71 @@ interface AdIntegrationInterface extends CacheableDependencyInterface {
   /**
    * Gets Ad unit 1.
    *
-   * @return string
+   * @param array $data
+   *   Specify an entity or a term, which should be looked up on
+   *   Leave empty, to look up accorsing to current route.
+   *   ['entity'] ContentEntityInterface - instance of entity.
+   *   ['term'] TermInterface - instance of term.
+   *
+   * @return string The ad unit 1.
    *   The ad unit 1.
    */
-  public function getAdUnit1();
+  public function getAdUnit1($data = array());
 
   /**
    * Gets Ad unit 2.
    *
+   * @param array $data
+   *   Specify an entity or a term, which should be looked up on
+   *   Leave empty, to look up accorsing to current route.
+   *   ['entity'] ContentEntityInterface - instance of entity.
+   *   ['term'] TermInterface - instance of term.
+   *
    * @return string
    *   The ad unit 2.
    */
-  public function getAdUnit2();
+  public function getAdUnit2($data = array());
 
   /**
    * Gets Ad unit 3.
    *
+   * @param array $data
+   *   Specify an entity or a term, which should be looked up on
+   *   Leave empty, to look up accorsing to current route.
+   *   ['entity'] ContentEntityInterface - instance of entity.
+   *   ['term'] TermInterface - instance of term.
+   *
    * @return string
    *   The ad unit 3.
    */
-  public function getAdUnit3();
+  public function getAdUnit3($data = array());
 
   /**
    * Gets Ad keyword.
    *
+   * @param array $data
+   *   Specify an entity or a term, which should be looked up on
+   *   Leave empty, to look up accorsing to current route.
+   *   ['entity'] ContentEntityInterface - instance of entity.
+   *   ['term'] TermInterface - instance of term.
+   *
    * @return string
    *   The ad keyword.
    */
-  public function getKeyword();
+  public function getKeyword($data = array());
 
   /**
    * Gets Ad mode.
    *
+   * @param array $data
+   *   Specify an entity or a term, which should be looked up on
+   *   Leave empty, to look up accorsing to current route.
+   *   ['entity'] ContentEntityInterface - instance of entity.
+   *   ['term'] TermInterface - instance of term.
+   *
    * @return string
    *   The ad unit 3.
    */
-  public function getAdMode();
+  public function getAdMode($data = array());
 
 }

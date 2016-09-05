@@ -27,6 +27,15 @@ function ad_integration_theme() {
         'ad_tag' => NULL,
       ),
     ),
+    'ad_slot_fia' => array(
+      'template' => 'ad-slot-fia',
+      'variables' => array(
+        'referrer' => NULL,
+        'ad_tag' => NULL,
+        'data' => NULL,
+        'adengine' => NULL,
+      ),
+    ),
   );
 }
 
@@ -98,6 +107,46 @@ function ad_integration_page_attachments(array &$page) {
     case 'orbyd':
       _attach_orbyd($page, $advertisingService);
       break;
+  }
+}
+
+/**
+ * Adds the ad template for Facebook Instant Articles
+ *
+ * Implements hook_preprocess_views_view_row_fia().
+ */
+function ad_integration_preprocess_views_view_row_fia(&$variables) {
+  /** @var \Drupal\ad_integration\AdIntegrationInterface $advertisingService */
+  $advertisingService = \Drupal::service('ad_integration');
+  $ad_provider = $advertisingService->getAdProvider();
+
+  $config = Drupal::config('ad_integration.settings');
+  $ad_tag = $config->get('adsc_fia_tag');
+
+  $node = $variables['row']['#node'];
+  $data = array('entity' => $node);
+
+  if ($ad_provider == 'orbyd' && !empty($ad_tag)) {
+    $adRender = array(
+      '#theme' => 'ad_slot_fia',
+      '#referrer' => $GLOBALS['base_url'],
+      '#ad_tag' => $ad_tag,
+      '#data' => array(
+        'adunit1' => $advertisingService->getAdUnit1($data),
+        'adunit2' => $advertisingService->getAdUnit2($data),
+        'adunit3' => $advertisingService->getAdUnit3($data),
+        'keyword' => $advertisingService->getKeyword($data),
+        'admode'  => $advertisingService->getAdMode($data),
+      ),
+    );
+    $adengine = $advertisingService->getAdEngine();
+    if ($adengine) {
+      $adRender += array(
+        '#adengine' => $adengine,
+      );
+    }
+    $adHtml = render($adRender);
+    $variables['options']['automatic_ad'] = $adHtml;
   }
 }
 

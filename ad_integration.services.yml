@@ -1,4 +1,7 @@
 services:
   ad_integration:
     class: Drupal\ad_integration\AdIntegration
-    arguments: ['@entity_type.manager', '@entity.query', '@config.factory', '@path.matcher', '@current_route_match', '@token']
+    arguments: ['@config.factory', '@token']
+  ad_integration.lookup:
+    class: Drupal\ad_integration\AdIntegrationLookup
+    arguments: ['@current_route_match', '@config.factory', '@entity_type.manager']

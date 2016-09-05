@@ -1,0 +1,19 @@
+<iframe width="300" height="250">
+    {%  if adengine %}
+        <script type="text/javascript" src="{{ adengine }}"></script>
+    {% endif %}
+    <script type="text/javascript">
+        var admobile = "true";
+        var addevice = "smartphone";
+        var admode   = "{{ data.admode }}";
+        var adunit1  = "{{ data.adunit1 }}";
+        var adunit2  = "{{ data.adunit2 }}";
+        var adunit3  = "{{ data.adunit3 }}";
+        var keyword  = "{{ data.keyword }}";
+        var aplus_data = "adunit1=" + adunit1 + "&adunit2=" + adunit2 + "&adunit3=" + adunit3 + "&keyword=" + keyword;
+        var aplus_referrer = '{{ referrer }}';
+    </script>
+    <div class="ad-container">
+        <SCRIPT SRC="http://cdn-tags.orbyd.com/{{ ad_tag }}" TYPE="text/javascript"></SCRIPT>
+    </div>
+</iframe>

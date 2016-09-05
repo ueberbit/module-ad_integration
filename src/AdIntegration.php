@@ -16,39 +16,11 @@ use Drupal\Core\Utility\Token;
  */
 class AdIntegration implements AdIntegrationInterface {
   /**
-   * The entity storage object for taxonomy terms.
-   *
-   * @var TermStorageInterface
-   */
-  protected $termStorage;
-
-  /**
-   * The entity query object for nodes.
-   *
-   * @var \Drupal\Core\Entity\Query\Sql\Query
-   */
-  protected $nodeQuery;
-
-  /**
    * The config factory.
    *
    * @var ImmutableConfig
    */
   protected $settings;
-
-  /**
-   * The current path match.
-   *
-   * @var PathMatcher
-   */
-  protected $pathMatch;
-
-  /**
-   * The current route match.
-   *
-   * @var CurrentRouteMatch
-   */
-  protected $currentRouteMatch;
 
   /**
    * The token object.
@@ -60,68 +32,52 @@ class AdIntegration implements AdIntegrationInterface {
   /**
    * Generates Advertising information.
    *
-   * @param EntityTypeManagerInterface $entity_manager
-   *   The entity query object for taxonomy terms.
-   * @param QueryFactory $query
-   *   The entity query object for taxonomy terms.
    * @param ConfigFactoryInterface $config_factory
    *   The config factory service.
-   * @param PathMatcher $path_match
-   *   The current path match.
-   * @param CurrentRouteMatch $current_route_match
-   *   The current route match.
    * @param Token $token
    *   Token service.
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_manager,
-    QueryFactory $query,
     ConfigFactoryInterface $config_factory,
-    PathMatcher $path_match,
-    CurrentRouteMatch $current_route_match,
     Token $token
   ) {
-    $this->termStorage = $entity_manager->getStorage('taxonomy_term');
-    $this->nodeQuery = $query->get('node');
     $this->settings = $config_factory->get('ad_integration.settings');
-    $this->pathMatch = $path_match;
-    $this->currentRouteMatch = $current_route_match;
     $this->token = $token;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getAdUnit1() {
-    return $this->token->replace('[advertising:adsc_unit1]', array(), array('sanitize' => FALSE));
+  public function getAdUnit1($data = array()) {
+    return $this->token->replace('[advertising:adsc_unit1]', $data, array('sanitize' => FALSE));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getAdUnit2() {
-    return $this->token->replace('[advertising:adsc_unit2]', array(), array('sanitize' => FALSE));
+  public function getAdUnit2($data = array()) {
+    return $this->token->replace('[advertising:adsc_unit2]', $data, array('sanitize' => FALSE));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getAdUnit3() {
-    return $this->token->replace('[advertising:adsc_unit3]', array(), array('sanitize' => FALSE));
+  public function getAdUnit3($data = array()) {
+    return $this->token->replace('[advertising:adsc_unit3]', $data, array('sanitize' => FALSE));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getKeyword() {
-    return $this->token->replace('[advertising:adsc_keyword]', array(), array('sanitize' => FALSE));
+  public function getKeyword($data = array()) {
+    return $this->token->replace('[advertising:adsc_keyword]', $data, array('sanitize' => FALSE));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getAdMode() {
-    return $this->token->replace('[advertising:adsc_mode]', array(), array('sanitize' => FALSE));
+  public function getAdMode($data = array()) {
+    return $this->token->replace('[advertising:adsc_mode]', $data, array('sanitize' => FALSE));
   }
 
   /**

@@ -20,23 +20,26 @@ ad_integration.settings:
     adsc_unit1_default:
       type: string
       label: 'Ad unit 1'
+    adsc_unit1_overridable:
+      type: boolean
+      label: 'Ad unit 1 is overridable'
     adsc_unit2_default:
       type: string
       label: 'Ad unit 2'
     adsc_unit2_overridable:
-      type: bool
+      type: boolean
       label: 'Ad unit 2 is overridable'
     adsc_unit3_default:
       type: string
       label: 'Ad unit 3'
     adsc_unit3_overridable:
-      type: bool
+      type: boolean
       label: 'Ad unit 3 is overridable'
     adsc_mode_default:
       type: string
       label: 'Adsc mode'
     adsc_mode_overridable:
-      type: bool
+      type: boolean
       label: 'Adsc mode is overridable'
     adsc_unit2_values:
       type: sequence

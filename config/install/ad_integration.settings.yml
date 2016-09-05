@@ -7,14 +7,14 @@ adsc_unit1_default: ''
 adsc_unit2_default: ''
 adsc_unit3_default: ''
 
-adsc_unit2_values: ''
-adsc_unit3_values: ''
+adsc_unit2_values: []
+adsc_unit3_values: []
 
-adsc_unit1_overridable: 0
-adsc_unit2_overridable: 1
-adsc_unit3_overridable: 1
+adsc_unit1_overridable: false
+adsc_unit2_overridable: true
+adsc_unit3_overridable: true
 
 adsc_mode_default: ''
-adsc_mode_overridable: 0
+adsc_mode_overridable: false
 
 adsc_keyword: ''
