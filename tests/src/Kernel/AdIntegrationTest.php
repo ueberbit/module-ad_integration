@@ -23,6 +23,7 @@ use PHPUnit_Framework_MockObject_MockObject;
  * Class AdIntegrationTest.
  *
  * @package Drupal\ad_integration\Tests\Kernel
+ * @group ad_integration
  */
 class AdIntegrationTest extends KernelTestBase {
 
