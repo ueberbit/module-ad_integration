@@ -1,5 +1,5 @@
 ad_integration.settings:
-  type: mapping
+  type: config_object
   label: 'Ad integration settings'
   mapping:
     ad_provider:

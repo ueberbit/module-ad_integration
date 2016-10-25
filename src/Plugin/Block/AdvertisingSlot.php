@@ -97,7 +97,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
         $device = $mapping['device'];
         $form[$device] = [
           '#type' => 'textfield',
-          '#title' => t('Adtag for :device', array(':device' => $device)),
+          '#title' => $this->t('Adtag for :device', array(':device' => $device)),
           '#default_value' => $config[$device] ? $config[$device] : NULL,
         ];
       }
@@ -105,7 +105,7 @@ class AdvertisingSlot extends BlockBase implements ContainerFactoryPluginInterfa
     else {
       $form['adtag'] = [
         '#type' => 'textfield',
-        '#title' => t('Adtag'),
+        '#title' => $this->t('Adtag'),
         '#default_value' => $config['adtag'] ? $config['adtag'] : NULL,
       ];
     }

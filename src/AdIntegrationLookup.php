@@ -18,7 +18,7 @@ use Drupal\taxonomy\TermInterface;
  */
 class AdIntegrationLookup implements AdIntegrationLookupInterface {
 
-  const supportedEntityParameters = ['node', 'taxonomy_term'];
+  const SUPPORTED_ENTITY_PARAMETERS = ['node', 'taxonomy_term'];
 
   protected $currentRouteMatch;
   protected $config;
@@ -28,8 +28,11 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
    * AdIntegrationLookup constructor.
    *
    * @param \Drupal\Core\Routing\RouteMatchInterface $currentRouteMatch
+   *   The route matcher.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The configuration.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager.
    */
   public function __construct(RouteMatchInterface $currentRouteMatch, ConfigFactoryInterface $configFactory, EntityTypeManagerInterface $entityTypeManager) {
     $this->currentRouteMatch = $currentRouteMatch;
@@ -59,7 +62,8 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
    * @param string $name
    *   The name of the Ad property to look up.
    * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
-   *   The route matching the entity (node, term) on which to look up properties.
+   *   The route matching the entity (node, term) on which to look up
+   *   properties.
    * @param bool $termsOnly
    *   If set to TRUE, skips lookup on node settings.
    *
@@ -69,7 +73,7 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
   public function byRoute($name, RouteMatchInterface $routeMatch, $termsOnly = FALSE) {
     $entity = NULL;
 
-    foreach (static::supportedEntityParameters as $parameter) {
+    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
       if ($entity = $routeMatch->getParameter($parameter)) {
         if (is_numeric($entity)) {
           $entity = Node::load($entity);
@@ -145,9 +149,8 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
         }
       }
 
-
       // Check for fallback categories if no ad_integration_setting is found.
-      if (!isset($termOverride) && $fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
+      if ($fieldType === 'entity_reference' && $fieldDefinition->getSetting('target_type') === 'taxonomy_term') {
         $fieldName = $fieldDefinition->getName();
         if ($tid = $entity->$fieldName->target_id) {
           if ($term = Term::load($tid)) {
@@ -167,9 +170,15 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
   }
 
   /**
+   * Search for a property value in a term.
+   *
    * @param string $name
+   *   The property name.
    * @param \Drupal\taxonomy\Entity\TermInterface $term
+   *   The term in which to search for the value.
+   *
    * @return string|null
+   *   The found value.
    */
   protected function searchTerm($name, TermInterface $term) {
     foreach ($term->getFieldDefinitions() as $fieldDefinition) {
@@ -192,11 +201,17 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
   }
 
   /**
-   * @param $name
-   * @param $fieldDefinition
-   * @param $entity
+   * Retrieve overriden setting.
+   *
+   * @param string $name
+   *   The name of the setting.
+   * @param FieldDefinitionInterface $fieldDefinition
+   *   The Ad Settings field.
+   * @param ContentEntityInterface $entity
+   *   The entity to search for overrides in.
    *
    * @return string|null
+   *   The overridden value of null if none is found.
    */
   protected function getOverriddenAdSetting($name, FieldDefinitionInterface $fieldDefinition, ContentEntityInterface $entity) {
     if ($fieldDefinition->getType() === 'ad_integration_settings') {
@@ -220,4 +235,5 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
   private function defaults($name) {
     return $this->config->get($name . '_default');
   }
+
 }

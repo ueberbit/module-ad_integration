@@ -17,8 +17,10 @@
     }
 
     for (var slot_html_id in settings.AdvertisingSlots) {
-      var tag = settings.AdvertisingSlots[slot_html_id][adsc_device];
-      $('#' + slot_html_id).html('<script>' + TFM.Tag.getAdTag(tag, slot_html_id) + ';</script>');
+      if (settings.AdvertisingSlots.hasOwnProperty(slot_html_id)) {
+        var tag = settings.AdvertisingSlots[slot_html_id][window.adsc_device];
+        $('#' + slot_html_id).html('<script>' + window.TFM.Tag.getAdTag(tag, slot_html_id) + ';</script>');
+      }
     }
   }
 

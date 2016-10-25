@@ -1,23 +1,18 @@
 <?php
 
-namespace Drupal\ad_integration\Tests\Kernel;
+namespace Drupal\Tests\ad_integration\Kernel;
 
-use Drupal\ad_integration\AdIntegrationInterface;
 use Drupal\ad_integration\AdIntegrationLookup;
-use Drupal\ad_integration\AdIntegrationLookupInterface;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\node\Entity\Node;
 use Drupal\simpletest\NodeCreationTrait;
 use Drupal\node\Entity\NodeType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
-use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Class AdIntegrationTest.

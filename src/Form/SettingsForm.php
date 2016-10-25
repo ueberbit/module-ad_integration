@@ -10,7 +10,7 @@ use Drupal\Component\Utility\Tags;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines a form that configures ivw settings.
+ * Defines a form that configures ad settings.
  */
 class SettingsForm extends ConfigFormBase {
   /**
@@ -63,14 +63,14 @@ class SettingsForm extends ConfigFormBase {
 
     $form['site_settings'] = array(
       '#type' => 'details',
-      '#title' => t('Site settings'),
+      '#title' => $this->t('Site settings'),
       '#open' => TRUE,
       '#group' => 'ad_settings',
     );
 
     $form['default_values'] = [
       '#type' => 'details',
-      '#title' => t('Default values'),
+      '#title' => $this->t('Default values'),
       '#open' => FALSE,
       '#group' => 'ad_settings',
     ];
@@ -79,13 +79,13 @@ class SettingsForm extends ConfigFormBase {
     $form['site_settings']['ad_provider'] = array(
       '#type' => 'select',
       '#options' => $provider_options,
-      '#title' => t('Ad provider'),
+      '#title' => $this->t('Ad provider'),
       '#default_value' => $settings->get('ad_provider'),
     );
 
     $form['site_settings']['adsc_container_tag'] = array(
       '#type' => 'textfield',
-      '#title' => t('Container tag url'),
+      '#title' => $this->t('Container tag url'),
       '#default_value' => $settings->get('adsc_container_tag'),
       '#states' => array(
         'visible' => array(
@@ -96,9 +96,9 @@ class SettingsForm extends ConfigFormBase {
 
     $form['site_settings']['adsc_fia_tag'] = array(
       '#type' => 'textfield',
-      '#title' => t('FB Instant Articles: Ad-Tag'),
+      '#title' => $this->t('FB Instant Articles: Ad-Tag'),
       '#default_value' => $settings->get('adsc_fia_tag'),
-      '#description' => t('The Ad-Tag for Facebook Instant Articles provided by Orbyd'),
+      '#description' => $this->t('The Ad-Tag for Facebook Instant Articles provided by Orbyd'),
       '#states' => array(
         'visible' => array(
           ':input[name=ad_provider]' => array('value' => 'orbyd'),
@@ -108,43 +108,43 @@ class SettingsForm extends ConfigFormBase {
 
     $form['site_settings']['adsc_ad_engine'] = array(
       '#type' => 'textfield',
-      '#title' => t('Ad engine'),
+      '#title' => $this->t('Ad engine'),
       '#default_value' => $settings->get('adsc_ad_engine'),
     );
 
     $adsc_unit2_values = $settings->get('adsc_unit2_values');
     $form['site_settings']['adsc_unit2_values'] = array(
       '#type' => 'textarea',
-      '#title' => t('First hierarchy level values'),
+      '#title' => $this->t('First hierarchy level values'),
       '#default_value' => !empty($adsc_unit2_values) ? Tags::implode($adsc_unit2_values) : '',
-      '#description' => t('Comma separated list of possible values for first hierarchy level'),
+      '#description' => $this->t('Comma separated list of possible values for first hierarchy level'),
     );
 
     $adsc_unit3_values = $settings->get('adsc_unit3_values');
     $form['site_settings']['adsc_unit3_values'] = array(
       '#type' => 'textarea',
-      '#title' => t('Second hierarchy level values'),
+      '#title' => $this->t('Second hierarchy level values'),
       '#default_value' => !empty($adsc_unit3_values) ? Tags::implode($adsc_unit3_values) : '',
-      '#description' => t('Comma separated list of possible values for second hierarchy level'),
+      '#description' => $this->t('Comma separated list of possible values for second hierarchy level'),
     );
 
     $form['default_values']['adsc_unit1_default'] = [
-      '#title' => t('Ad level 1'),
+      '#title' => $this->t('Ad level 1'),
       '#type' => 'textfield',
       '#default_value' => $settings->get('adsc_unit1_default'),
-      '#description' => t('First hierarchical level. This is the name of the Website'),
+      '#description' => $this->t('First hierarchical level. This is the name of the Website'),
     ];
 
     $form['default_values']['adsc_unit1_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Adsc Unit 1 is overrideable'),
+      '#title' => $this->t('Adsc Unit 1 is overrideable'),
       '#default_value' => $settings->get('adsc_unit1_overridable'),
     ];
 
     $form['default_values']['adsc_unit2_default'] = [
-      '#title' => t('Ad level 2'),
+      '#title' => $this->t('Ad level 2'),
       '#default_value' => $settings->get('adsc_unit2_default'),
-      '#description' => t('Second hierarchical level'),
+      '#description' => $this->t('Second hierarchical level'),
     ];
 
     if (empty($adsc_unit2_values)) {
@@ -157,14 +157,14 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['adsc_unit2_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Ad level 2 is overrideable'),
+      '#title' => $this->t('Ad level 2 is overrideable'),
       '#default_value' => $settings->get('adsc_unit2_overridable'),
     ];
 
     $form['default_values']['adsc_unit3_default'] = [
-      '#title' => t('Ad level 3'),
+      '#title' => $this->t('Ad level 3'),
       '#default_value' => $settings->get('adsc_unit3_default'),
-      '#description' => t('Third hierarchical level'),
+      '#description' => $this->t('Third hierarchical level'),
     ];
 
     if (empty($adsc_unit3_values)) {
@@ -177,17 +177,17 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['adsc_unit3_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Ad level 3 is overrideable'),
+      '#title' => $this->t('Ad level 3 is overrideable'),
       '#default_value' => $settings->get('adsc_unit3_overridable'),
     ];
 
     $modes = ['full' => 'full', 'infinite' => 'infinite'];
     $form['default_values']['adsc_mode_default'] = [
-      '#title' => t('Adsc mode'),
+      '#title' => $this->t('Adsc mode'),
       '#type' => 'select',
       '#options' => $modes,
       '#default_value' => $settings->get('adsc_mode_default'),
-      '#description' => t('Adsc mode, fag provides a special mode for infinite scrolling.'),
+      '#description' => $this->t('Adsc mode, fag provides a special mode for infinite scrolling.'),
       '#states' => array(
         'visible' => array(
           ':input[name=ad_provider]' => array('value' => 'fag'),
@@ -197,7 +197,7 @@ class SettingsForm extends ConfigFormBase {
 
     $form['default_values']['adsc_mode_overridable'] = [
       '#type' => 'checkbox',
-      '#title' => t('Adsc mode is overrideable'),
+      '#title' => $this->t('Adsc mode is overrideable'),
       '#default_value' => $settings->get('adsc_mode_overridable'),
     ];
 

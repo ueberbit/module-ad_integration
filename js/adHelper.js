@@ -19,20 +19,20 @@ function getDeviceType() {
   return 'desktop';
 }
 
-function deviceIsMobile() {
+window.deviceIsMobile = function () {
   'use strict';
 
   return (getDeviceType() === 'smartphone');
-}
+};
 
-function deviceIsTablet() {
+window.deviceIsTablet = function () {
   'use strict';
 
   return (getDeviceType() === 'tablet');
-}
+};
 
-function deviceIsDesktop() {
+window.deviceIsDesktop = function () {
   'use strict';
 
   return (getDeviceType() === 'desktop');
-}
+};

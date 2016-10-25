@@ -44,7 +44,7 @@ interface AdIntegrationInterface extends CacheableDependencyInterface {
    *   ['entity'] ContentEntityInterface - instance of entity.
    *   ['term'] TermInterface - instance of term.
    *
-   * @return string The ad unit 1.
+   * @return string
    *   The ad unit 1.
    */
   public function getAdUnit1($data = array());
