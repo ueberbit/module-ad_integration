@@ -72,19 +72,21 @@ class AdIntegrationLookup implements AdIntegrationLookupInterface {
    */
   public function byRoute($name, RouteMatchInterface $routeMatch, $termsOnly = FALSE) {
     $entity = NULL;
-
-    foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
-      if ($entity = $routeMatch->getParameter($parameter)) {
-        if (is_numeric($entity)) {
-          $entity = Node::load($entity);
-        }
-        $setting = $this->searchEntity($name, $entity, $termsOnly);
-        if ($setting !== NULL) {
-          return $setting;
+    // We only show ads on canonical urls - check for correct routes.
+    // Otherwise we just return default settings.
+    if (!in_array($routeMatch->getRouteName(), ['entity.node.canonical', 'entity.taxonomy_term.canonical'])) {
+      foreach (static::SUPPORTED_ENTITY_PARAMETERS as $parameter) {
+        if ($entity = $routeMatch->getParameter($parameter)) {
+          if (is_numeric($entity)) {
+            $entity = Node::load($entity);
+          }
+          $setting = $this->searchEntity($name, $entity, $termsOnly);
+          if ($setting !== NULL) {
+            return $setting;
+          }
         }
       }
     }
-
     return $this->defaults($name);
   }
 
