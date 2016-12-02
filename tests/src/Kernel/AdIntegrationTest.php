@@ -216,7 +216,7 @@ class AdIntegrationTest extends KernelTestBase {
     /** @var PHPUnit_Framework_MockObject_MockObject $routeMatchMock */
     $routeMatchMock = $this->getMockBuilder('\Drupal\Core\Routing\CurrentRouteMatch')
       ->disableOriginalConstructor()
-      ->setMethods(['getParameter'])
+      ->setMethods(['getParameter', 'getRouteName'])
       ->getMock();
     $routeMatchMock->expects($this->any())
       ->method('getParameter')
@@ -224,6 +224,9 @@ class AdIntegrationTest extends KernelTestBase {
       ->will($this->returnValueMap(array(
         array('node', $node->id()),
       )));
+    $routeMatchMock->expects($this->any())
+      ->method('getRouteName')
+      ->willReturn('entity.node.canonical');
     $configFactory = \Drupal::service('config.factory');
     $entityTypeManager = \Drupal::service('entity_type.manager');
     /** @var AdIntegrationLookupInterface $adIntegrationLookup */
