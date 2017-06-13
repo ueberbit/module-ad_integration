@@ -128,6 +128,12 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('Comma separated list of possible values for second hierarchy level'),
     );
 
+    $form['site_settings']['ad_integration_disable'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Disable Ads'),
+      '#default_value' => $settings->get('ad_integration_disable'),
+    ];
+
     $form['default_values']['adsc_unit1_default'] = [
       '#title' => $this->t('Ad level 1'),
       '#type' => 'textfield',
@@ -225,6 +231,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('adsc_unit3_overridable', $values['adsc_unit3_overridable'])
       ->set('adsc_mode_default', $values['adsc_mode_default'])
       ->set('adsc_mode_overridable', $values['adsc_mode_overridable'])
+      ->set('ad_integration_disable', $values['ad_integration_disable'])
       ->save();
   }
 

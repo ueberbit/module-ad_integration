@@ -87,6 +87,10 @@ function ad_integration_form_taxonomy_term_form_alter(&$form, FormStateInterface
 function ad_integration_page_attachments(array &$page) {
   /* @var Drupal\ad_integration\AdIntegration $advertisingService */
   $advertisingService = \Drupal::service('ad_integration');
+
+  if ($advertisingService->isAdIntegrationDisabled()){
+    return;
+  }
   $ad_provider = $advertisingService->getAdProvider();
   $page['#cache']['tags'] = Cache::mergeTags(isset($page['#cache']['tags']) ? $page['#cache']['tags'] : [], $advertisingService->getCacheTags());
   $page['#attached']['html_head'][] = [
@@ -121,6 +125,11 @@ function ad_integration_preprocess_views_view_row_fia(&$variables) {
   $ad_provider = $advertisingService->getAdProvider();
 
   $config = Drupal::config('ad_integration.settings');
+
+  if ($advertisingService->isAdIntegrationDisabled()){
+    return;
+  }
+
   $ad_tag = $config->get('adsc_fia_tag');
 
   $node = $variables['row']['#node'];

@@ -18,3 +18,5 @@ adsc_mode_default: ''
 adsc_mode_overridable: false
 
 adsc_keyword: ''
+
+ad_integration_disable: false

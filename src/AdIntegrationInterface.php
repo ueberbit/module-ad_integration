@@ -105,4 +105,10 @@ interface AdIntegrationInterface extends CacheableDependencyInterface {
    */
   public function getAdMode($data = array());
 
+  /**
+   * Checks if the Flag is set to disable the output of ads.
+   *
+   * @return boolean
+   */
+  public function isAdIntegrationDisabled();
 }

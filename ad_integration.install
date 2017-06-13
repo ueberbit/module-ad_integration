@@ -47,3 +47,13 @@ function ad_integration_update_8001() {
   }
   \Drupal::keyValue('entity.storage_schema.sql')->setMultiple($schema_copy);
 }
+
+/**
+ * Ad bollean flag to config for temporary hiding ads.
+ */
+function ad_integration_update_8002() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('ad_integration.settings');
+  $config->set('ad_integration_disable',FALSE);
+  $config->save(TRUE);
+}

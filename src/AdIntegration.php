@@ -118,4 +118,13 @@ class AdIntegration implements AdIntegrationInterface {
     return 0;
   }
 
+  /**
+   * Checks if the Flag is set to disable the output of ads.
+   *
+   * @return boolean
+   */
+  public function isAdIntegrationDisabled() {
+    $settings = $this->settings->get('ad_integration_disable');
+    return $settings;
+  }
 }
