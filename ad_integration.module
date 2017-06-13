@@ -173,7 +173,7 @@ function _attach_orbyd(array &$page, $advertisingService) {
     'advertising_config',
   ];
   $adengine = $advertisingService->getAdEngine();
-  if (strlen($adengine)) {
+  if (!empty($adengine)) {
     $page['#attached']['html_head'][] = [
       [
         '#tag' => 'script',
